@@ -25,7 +25,7 @@ namespace WebAPI.Controllers
         {
             _config = config;
             _context = context;
-            AssigndataUtils._context = _context;
+            //AssigndataUtils._context = _context;
             SecurityUtils._context = _context;
             SecurityUtils._config = config;
         }

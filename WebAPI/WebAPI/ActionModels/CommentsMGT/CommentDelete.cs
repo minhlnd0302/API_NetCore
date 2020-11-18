@@ -7,7 +7,7 @@ using WebAPI.Models;
 
 namespace WebAPI.ActionModels.CommentsMGT
 {
-    public class CommentDelete
+    public class CommentDelete : ControllerBase
     {
         public long CommentId { get; set; }
         public async Task<ActionResult<Comment>> Excute()
@@ -17,7 +17,7 @@ namespace WebAPI.ActionModels.CommentsMGT
             var comments = await _context.Comments.FindAsync(CommentId);
             if (comments == null)
             {
-                return new NotFoundObjectResult("Bình luận không tồn tại !");
+                return NotFound("Bình luận không tồn tại !");
             }
 
             _context.Comments.Remove(comments);

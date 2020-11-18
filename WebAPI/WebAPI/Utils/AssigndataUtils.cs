@@ -21,7 +21,7 @@ namespace WebAPI.Utils
 
             if (id == 0)
             {
-                long newCommentId = _context.Comments.Max(p => p.Id) + 1;
+                id = _context.Comments.Max(p => p.Id) + 1;
             }
 
             // assign value from commentDTO to comments

@@ -16,15 +16,7 @@ namespace WebAPI.Controllers
     [Route("[controller]")]
     [ApiController]
     public class CommentsController : ControllerBase
-    {
-        private readonly TGDDContext _context;
-
-        public CommentsController(TGDDContext context)
-        {
-            _context = context;
-            AssigndataUtils._context = _context;
-        }
-
+    {   
         // get all comment
         // GET: https://minhlnd.azurewebsites.net/Comments
         [HttpGet]
@@ -60,33 +52,14 @@ namespace WebAPI.Controllers
             return await CommentUpdate.Excute();
         }
 
-        // POST: api/Comments
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        // add comment
+        // POST: https://minhlnd.azurewebsites.net/Comments 
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult<Comment>> PostComments(Comment comment)
+        public async Task<ActionResult<Comment>> PostComments(CommentDTO commentDTO)
         {
-            _context.Comments.Add(comment);
-            try
-            {
-                
-                
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (CommentsExists(comment.Id))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return CreatedAtAction("GetComments", new { id = comment.Id }, comment);
+            var create = new CommentCreate { commentDTO = commentDTO };
+            return await create.Excute();
         }
 
 
@@ -99,11 +72,6 @@ namespace WebAPI.Controllers
             var CommentDelete = new CommentDelete { CommentId = id };
 
             return await CommentDelete.Excute();
-        }
-
-        private bool CommentsExists(long id)
-        {
-            return _context.Comments.Any(e => e.Id == id);
-        }
+        } 
     }
 }

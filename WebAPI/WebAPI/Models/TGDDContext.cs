@@ -223,7 +223,7 @@ namespace WebAPI.Models
 
                 entity.Property(e => e.CustomerId).HasColumnName("Customer_Id");
 
-                entity.Property(e => e.IsFavorited).HasColumnName("Is_favorited");
+                //entity.Property(e => e.IsFavorited).HasColumnName("Is_favorited");
 
                 entity.Property(e => e.ProductId).HasColumnName("Product_Id");
 

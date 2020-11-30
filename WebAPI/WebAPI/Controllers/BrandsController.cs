@@ -25,7 +25,7 @@ namespace WebAPI.Controllers
         // GET: api/Brands
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Brand>>> GetBrands()
-        {
+        { 
             List<Brand> tmp = await _context.Brands.ToListAsync();
 
 

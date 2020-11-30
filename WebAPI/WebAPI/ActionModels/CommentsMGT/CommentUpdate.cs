@@ -10,7 +10,7 @@ using WebAPI.Utils;
 
 namespace WebAPI.ActionModels.CommentsMGT
 {
-    public class CommentUpdate
+    public class CommentUpdate : ControllerBase
     { 
         public long CommentId { get; set; }
         public CommentDTO CommentDTO { get; set; }
@@ -32,22 +32,17 @@ namespace WebAPI.ActionModels.CommentsMGT
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CommentExist(CommentId))
+                bool commentExist = _context.Comments.Any(e => e.Id == CommentId);
+                if (!commentExist)
                 {
-                    return new NotFoundObjectResult("Không tìm thấy comment!");
+                    return NotFound("Không tìm thấy comment!");
                 }
                 else
                 {
                     throw;
                 }
             }
-            return new OkObjectResult("Chỉnh sửa thành công !");
-        }
-
-        private bool CommentExist(long id)
-        {
-            var _context = new TGDDContext();
-            return _context.Comments.Any(e => e.Id == id);
-        }
+            return Ok("Chỉnh sửa thành công !");
+        } 
     }
 }

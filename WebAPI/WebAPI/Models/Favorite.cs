@@ -8,7 +8,7 @@ namespace WebAPI.Models
     public partial class Favorite
     {
         public long Id { get; set; }
-        public bool? IsFavorited { get; set; }
+        //public bool? IsFavorited { get; set; }
         public long? CustomerId { get; set; }
         public long? ProductId { get; set; }
 

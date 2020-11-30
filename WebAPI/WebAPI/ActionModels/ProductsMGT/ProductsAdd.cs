@@ -4,15 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebAPI.DTOModels;
+using WebAPI.Models;
 //using WebAPI.Models;
 
 namespace WebAPI.ActionModels.ProductMGT
 {
     public class ProductsAdd
     {
-        public ProductDTO product { get; set; }
-        //public static async Task<ActionResult<Products>> addProduct()
-        //{
+        public ProductDTO productDTO { get; set; }
+        //public static async Task<ActionResult<Product>> Excute()
+        //{ 
 
         //    var _context = new TGDDContext();
         //    var newProductId = _context.Products.Max(p => p.Id) + 1;

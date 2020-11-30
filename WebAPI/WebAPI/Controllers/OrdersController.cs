@@ -6,122 +6,81 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WebAPI.ActionModels.OrdersMGT;
+using WebAPI.DTOModels;
 using WebAPI.Models;
+using WebAPI.Utils;
 
 namespace WebAPI.Controllers
 {
     [Route("[controller]")]
     [ApiController]
     public class OrdersController : ControllerBase
-    {
-        private readonly TGDDContext _context;
-        public OrdersController(TGDDContext context)
-        {
-            _context = context;
-        }
-
+    { 
         // GET: /Orders
 
         [Authorize(Roles = "0")]
         [HttpGet]
         // get all orders
         public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
-        {
-            return await _context.Orders.ToListAsync();
+        { 
+            var ordersGetAll = new OrdersGetAll();
+            return await ordersGetAll.Excute();
         }
 
         // GET: Orders/5
         [Authorize]
-        [HttpGet("{idOrder}")]
+        [HttpGet("{OrderId}")]
         // get order from id order
-        public async Task<ActionResult<Order>> GetOrder(long idOrder)
+        public async Task<ActionResult<Order>> GetOrder(long orderId)
         {
-            var order = await _context.Orders.FindAsync(idOrder);
+            var orderGetById = new OrdersGetById { OrderId = orderId };
 
-            if (order == null)
-            {
-                return NotFound("Không tìm thấy sản phẩm !");
-            }
-            return order;
+            return await orderGetById.Excute();
         }
 
-        // PUT: api/Orders/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutOrders(long id, Order order)
+
+        [Authorize]
+        [HttpGet("search")]
+        // get order from id order
+        public async Task<ActionResult<IEnumerable<Order>>> GetOrderByCustomerId([FromQuery] long customerId)
         {
-            if (id != order.Id)
-            {
-                return BadRequest();
-            }
+            var orderGetByCustomerId = new OrdersGetByCustomerId { CustomerId = customerId };
 
-            _context.Entry(order).State = EntityState.Modified;
+            return await orderGetByCustomerId.Excute();
+        }
 
-            try
+        // PUT: api/Orders/5 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutOrders(long id, OrderDTO orderDTO)
+        {
+            var orderUpdate = new OrdersUpdate
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!OrdersExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+                Id = id,
+                OrderDTO = orderDTO 
+            };
+            return await orderUpdate.Excute();
+        }
 
-            return NoContent();
+        [HttpGet("status/{orderId}")]
+        public async Task<IActionResult> UpdateStatus(long orderId, long statusId)
+        {
+            var orderUpdateStatus = new OrdersUpdateStatus
+            {
+                OrderId = orderId,
+                StatusId = statusId
+            };
+            return await orderUpdateStatus.Excute();
         }
 
         // POST: api/Orders
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Order>> PostOrders(Order order)
+        public async Task<ActionResult<Order>> PostOrders(OrderDTO orderDTO)
         {
-            _context.Orders.Add(order);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (OrdersExists(order.Id))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return CreatedAtAction("GetOrders", new { id = order.Id }, order);
-        }
-
-        // DELETE: api/Orders/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Order>> DeleteOrders(long id)
-        {
-            var order = await _context.Orders.FindAsync(id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-
-            _context.Orders.Remove(order);
-            await _context.SaveChangesAsync();
-
-            return order;
-        }
-
-        private bool OrdersExists(long id)
-        {
-            return _context.Orders.Any(e => e.Id == id);
-        }
+            var orderCreate = new OrdersCreate { OrderDTO = orderDTO };
+            return await orderCreate.Excute();
+        } 
     }
 }

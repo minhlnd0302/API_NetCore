@@ -30,7 +30,7 @@ namespace WebAPI.Controllers
         // lấy bình luận theo Id sản phẩm
         // GET: https://minhlnd.azurewebsites.net/Comments/CommentId 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Comment>> GetCommentForIdProduct(long ProductId)
+        public async Task<ActionResult<List<Comment>>> GetCommentForIdProduct(long ProductId)
         {
             var comment = new CommentGetByProduct { ProductId = ProductId };
             return await comment.Excute();
@@ -60,8 +60,7 @@ namespace WebAPI.Controllers
         {
             var create = new CommentCreate { commentDTO = commentDTO };
             return await create.Excute();
-        }
-
+        } 
 
         // xóa comment
         // DELETE: https://minhlnd.azurewebsites.net/Comments/CommentId

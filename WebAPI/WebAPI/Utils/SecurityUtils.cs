@@ -19,10 +19,8 @@ namespace WebAPI.Controllers
     {
         //kiểm tra token có phải là admin hay không
 
-        public static TGDDContext _context;
-
-
-
+        public static TGDDContext _context; 
+        
         public static IConfiguration _config;
         public static bool IsAdmin(TGDDContext _context, string username)
         {
@@ -108,5 +106,7 @@ namespace WebAPI.Controllers
 
             return customer;
         }
+
+        
     }
 }

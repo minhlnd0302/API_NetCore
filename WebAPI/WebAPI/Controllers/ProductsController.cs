@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Reflection;
+using System.Drawing;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -14,6 +15,9 @@ using WebAPI.DTOModels;
 using WebAPI.Models;
 using WebAPI.ActionModels;
 using WebAPI.ActionModels.ProductMGT;
+using System.IO;
+using Azure.Storage.Blobs;
+using Azure.Storage;
 
 namespace WebAPI.Controllers
 {
@@ -29,6 +33,7 @@ namespace WebAPI.Controllers
         }
 
         // GET: get all Products
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
@@ -37,22 +42,40 @@ namespace WebAPI.Controllers
             return await product.Excute();
         }
 
-        [HttpGet("test")]
-        public async Task<ActionResult<JsonArrayAttribute>> Products()
+        [AllowAnonymous]
+        [HttpPost("test")]
+        public async Task<ActionResult<Product>> testFile(List<IFormFile> files)
         {
-            var products = _context.Products.Include(p => p.Images).ThenInclude(i => i.Url)
-                                            .Include(p => p.Descriptions)
-                                            .Include(p => p.Category).ThenInclude(c => c.Name)
-                                            .Include(p => p.Brand).ThenInclude(b => b.Name);
-
-
-
-
-            var tmp = await products.ToListAsync();
+            var a = 0;
+              
 
             //return JsonConvert.DeserializeObject(tmp);
 
-            return Ok(tmp);
+            return Ok();
+        }
+
+        public static async Task<bool> UploadFileToStorage(Stream fileStream, string fileName,
+                                                    AzureStorageConfig _storageConfig)
+        {
+            // Create a URI to the blob
+            Uri blobUri = new Uri("https://" +
+                                  _storageConfig.AccountName +
+                                  ".blob.core.windows.net/" +
+                                  _storageConfig.ImageContainer +
+                                  "/" + fileName);
+
+            // Create StorageSharedKeyCredentials object by reading
+            // the values from the configuration (appsettings.json)
+            StorageSharedKeyCredential storageCredentials =
+                new StorageSharedKeyCredential(_storageConfig.AccountName, _storageConfig.AccountKey);
+
+            // Create the blob client.
+            BlobClient blobClient = new BlobClient(blobUri, storageCredentials);
+
+            // Upload the file
+            await blobClient.UploadAsync(fileStream);
+
+            return await Task.FromResult(true);
         }
 
         // lay thông tin product = Id

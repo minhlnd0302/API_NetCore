@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WebAPI.ActionModels.CustomersMGT;
 using WebAPI.Models;
 
 namespace WebAPI.Controllers
@@ -27,24 +28,30 @@ namespace WebAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
         {
-            return await _context.Customers.ToListAsync();
+            CustomersGetAll customerGetAll = new CustomersGetAll();
+            return await customerGetAll.Excute();
         }
 
         // GET: Customers/5
         // get info user from id
         [HttpGet("{id}")]
-        //public async Task<ActionResult<Customers>> GetCustomerFromId(long id)
-        //{
+        public async Task<ActionResult<Customer>> GetCustomerFromId(long id)
+        { 
+            CustomersGetById customersGetById = new CustomersGetById { Id = id };
 
-        //    var customers = await _context.Customers.FindAsync(id);
+            return await customersGetById.Excute();
+        }
 
-        //    if (customers == null)
-        //    {
-        //        return NotFound(); 
-        //    }
 
-        //    return customers;
-        //}
+        //get customer from username
+        [HttpGet]
+        public async Task<ActionResult<Customer>> GetCustomerFromUserName(string username)
+        {
+
+            CustomersGetByUserName customersGetByUserName = new CustomersGetByUserName { Username = username };
+
+            return await customersGetByUserName.Excute();
+        }
 
 
         [HttpGet("{username}")]
@@ -92,15 +99,16 @@ namespace WebAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Customers
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
+         
+        // create customer
+
+        [HttpPost("add")]
         public async Task<ActionResult<Customer>> PostCustomers(Customer customer)
         {
             _context.Customers.Add(customer);
             try
             {
+
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,20 +8,20 @@ using WebAPI.Models;
 
 namespace WebAPI.ActionModels.CommentsMGT
 {
-    public class CommentGetByProduct
+    public class CommentGetByProduct : ControllerBase
     { 
         public long ProductId { get; set; }
-        public async Task<ActionResult<Comment>> Excute()
+        public async Task<ActionResult<List<Comment>>> Excute()
         {
             var _context = new TGDDContext();
 
-            var comment = await _context.Comments.FindAsync(ProductId);
+            List<Comment> comments = await _context.Comments.Where(c => c.ProductId == ProductId).ToListAsync();
 
-            if (comment == null)
+            if (comments.Count < 1)
             {
-                return new NotFoundResult();
+                return NotFound();
             }
-            return comment;
+            return comments;
         } 
     }
 }

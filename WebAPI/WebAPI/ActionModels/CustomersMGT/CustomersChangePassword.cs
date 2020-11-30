@@ -7,5 +7,6 @@ namespace WebAPI.ActionModels.CustomersMGT
 {
     public class CustomersChangePassword
     {
+        
     }
 }

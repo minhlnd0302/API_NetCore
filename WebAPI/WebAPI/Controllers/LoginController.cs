@@ -32,8 +32,9 @@ namespace WebAPI.Controllers
 
         [AllowAnonymous]
         [HttpPost("Customer")]
+         
         public IActionResult LoginCustomer([FromBody] Login admin)
-        {
+        {  
             //Customers login = new Customers();
 
             //login.UserName = admin.username;

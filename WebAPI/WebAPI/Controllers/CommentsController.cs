@@ -29,8 +29,8 @@ namespace WebAPI.Controllers
 
         // lấy bình luận theo Id sản phẩm
         // GET: https://minhlnd.azurewebsites.net/Comments/CommentId 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<List<Comment>>> GetCommentForIdProduct(long ProductId)
+        [HttpGet("{ProductId}")]
+        public async Task<ActionResult<List<Comment>>> GetCommentFromProductId(long ProductId)
         {
             var comment = new CommentGetByProduct { ProductId = ProductId };
             return await comment.Excute();

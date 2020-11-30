@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WebAPI.ActionModels.VouchersMGT
 {
-    public class VouchersGetAll
+    public class VoucherGetAll
     {
     }
 }

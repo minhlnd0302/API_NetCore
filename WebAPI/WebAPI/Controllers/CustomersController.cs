@@ -62,7 +62,7 @@ namespace WebAPI.Controllers
             if (customer == null)
             {
                 return NotFound();
-            }
+            } 
 
             return customer;
         }
@@ -105,25 +105,9 @@ namespace WebAPI.Controllers
         [HttpPost("add")]
         public async Task<ActionResult<Customer>> PostCustomers(Customer customer)
         {
-            _context.Customers.Add(customer);
-            try
-            {
+            var customerCreate = new CustomersCreate { Customer = customer };
 
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (CustomersExists(customer.Id))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return CreatedAtAction("GetCustomers", new { id = customer.Id }, customer);
+            return await customerCreate.Excute();
         }
 
         // DELETE: api/Customers/5

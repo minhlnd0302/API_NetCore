@@ -162,3 +162,6 @@ E:\API_NetCore\WebAPI\WebAPI\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnaly
 E:\API_NetCore\WebAPI\WebAPI\bin\Debug\netcoreapp3.1\Azure.Core.dll
 E:\API_NetCore\WebAPI\WebAPI\bin\Debug\netcoreapp3.1\Azure.Storage.Common.dll
 E:\API_NetCore\WebAPI\WebAPI\bin\Debug\netcoreapp3.1\Microsoft.Bcl.AsyncInterfaces.dll
+E:\API_NetCore\WebAPI\WebAPI\obj\Debug\netcoreapp3.1\WebAPI.csproj.CoreCompileInputs.cache
+E:\API_NetCore\WebAPI\WebAPI\obj\Debug\netcoreapp3.1\WebAPI.MvcApplicationPartsAssemblyInfo.cache
+E:\API_NetCore\WebAPI\WebAPI\bin\Debug\netcoreapp3.1\Azure.Storage.Blobs.dll

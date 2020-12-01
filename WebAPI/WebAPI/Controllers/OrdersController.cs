@@ -19,7 +19,7 @@ namespace WebAPI.Controllers
     { 
         // GET: /Orders
 
-        [Authorize(Roles = "0")]
+        //[Authorize(Roles = "0")]
         [HttpGet]
         // get all orders
         public async Task<ActionResult<IEnumerable<Order>>> GetOrders()

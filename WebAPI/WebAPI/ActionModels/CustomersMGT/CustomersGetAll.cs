@@ -13,6 +13,7 @@ namespace WebAPI.ActionModels.CustomersMGT
         public async Task<ActionResult<IEnumerable<Customer>>> Excute()
         {
             var _context = new TGDDContext();
+
             return await _context.Customers.ToListAsync();
         }
     }

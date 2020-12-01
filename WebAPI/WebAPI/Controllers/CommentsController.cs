@@ -26,6 +26,21 @@ namespace WebAPI.Controllers
             return await comments.Excute();
         }
 
+        [HttpGet("test")]
+        public async Task<ActionResult<Customer>> test()
+        {
+            var _context = new TGDDContext();
+
+
+            var p = _context.Customers.Where(p => p.Id == 1).Include(p=>p.Password).FirstOrDefault();
+
+            //string p = _context.Customers.Where(p => p.Id == 1).Select(p => p.Password).ToString();
+
+
+            return p;
+        }
+
+
 
         // lấy bình luận theo Id sản phẩm
         // GET: https://minhlnd.azurewebsites.net/Comments/CommentId 

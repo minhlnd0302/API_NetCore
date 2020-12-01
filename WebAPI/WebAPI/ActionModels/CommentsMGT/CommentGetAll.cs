@@ -13,7 +13,10 @@ namespace WebAPI.ActionModels.CommentsMGT
         public async Task<ActionResult<IEnumerable<Comment>>> Excute()
         {
             var _context = new TGDDContext();
-            return await _context.Comments.ToListAsync();
+
+            var comments = _context.Comments.Include(c => c.Customer);
+                
+            return await comments.ToListAsync();
         }
     }
 }

@@ -13,7 +13,11 @@ namespace WebAPI.ActionModels.OrdersMGT
         public async Task<ActionResult<IEnumerable<Order>>> Excute()
         {
             var _context = new TGDDContext();
-            return await _context.Orders.ToListAsync();
+
+            var orders = _context.Orders.Include(o => o.OrderDetails)
+                                               .Include(o => o.Status)
+                                               .Include(o => o.Customer);
+            return await orders.ToListAsync();
         }
     }
 }

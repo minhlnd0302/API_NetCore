@@ -16,6 +16,8 @@ namespace WebAPI.Models
         public DateTime? EndDate { get; set; }
         public DateTime? StartDate { get; set; }
         public string Code { get; set; }
+        public int? DiscountPercent { get; set; }
+        public string Name { get; set; }
 
         public virtual ICollection<UseVoucher> UseVouchers { get; set; }
     }

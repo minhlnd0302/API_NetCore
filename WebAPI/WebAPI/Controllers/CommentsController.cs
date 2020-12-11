@@ -29,10 +29,8 @@ namespace WebAPI.Controllers
         [HttpGet("test")]
         public async Task<ActionResult<Customer>> test()
         {
-            var _context = new TGDDContext();
-
-
-            var p = _context.Customers.Where(p => p.Id == 1).Include(p=>p.Password).FirstOrDefault();
+            var _context = new TGDDContext(); 
+            var p = _context.Customers.Where(p => p.Id == 1).FirstOrDefault();
 
             //string p = _context.Customers.Where(p => p.Id == 1).Select(p => p.Password).ToString();
 

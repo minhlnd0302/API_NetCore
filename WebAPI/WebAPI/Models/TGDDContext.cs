@@ -40,7 +40,7 @@ namespace WebAPI.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Server=tcp:minhlnd.database.windows.net,1433;Initial Catalog=TGDD;Persist Security Info=False;User ID=minhlnd;Password=3223minh!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             }
         }
@@ -223,8 +223,6 @@ namespace WebAPI.Models
 
                 entity.Property(e => e.CustomerId).HasColumnName("Customer_Id");
 
-                //entity.Property(e => e.IsFavorited).HasColumnName("Is_favorited");
-
                 entity.Property(e => e.ProductId).HasColumnName("Product_Id");
 
                 entity.HasOne(d => d.Customer)
@@ -270,7 +268,7 @@ namespace WebAPI.Models
                     .HasMaxLength(200)
                     .HasColumnName("Payment_method");
 
-                entity.Property(e => e.ShippingAdress).HasMaxLength(200);
+                entity.Property(e => e.ShippingAddress).HasMaxLength(200);
 
                 entity.Property(e => e.StatusId).HasColumnName("Status_Id");
 
@@ -353,7 +351,6 @@ namespace WebAPI.Models
 
                 entity.Property(e => e.Value)
                     .HasMaxLength(200)
-                    .IsUnicode(false)
                     .HasColumnName("value");
             });
 
@@ -382,7 +379,13 @@ namespace WebAPI.Models
                     .IsUnicode(false)
                     .HasColumnName("code");
 
+                entity.Property(e => e.DiscountPercent).HasColumnName("discount_percent");
+
                 entity.Property(e => e.EndDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(200)
+                    .HasColumnName("name");
 
                 entity.Property(e => e.StartDate).HasColumnType("datetime");
             });

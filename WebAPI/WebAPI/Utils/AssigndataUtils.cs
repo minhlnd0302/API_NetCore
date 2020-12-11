@@ -51,7 +51,7 @@ namespace WebAPI.Utils
             order.CustomerId = orderDTO.CustomerId;
             order.Discount = orderDTO.Discount;
             order.Total = orderDTO.Total;
-            order.ShippingAdress = orderDTO.ShippingAdress;
+            order.ShippingAddress = orderDTO.ShippingAddress;
             order.StatusId = orderDTO.StatusId;
             order.Note = orderDTO.Note;
             order.PaymentMethod = orderDTO.PaymentMethod;
@@ -72,6 +72,27 @@ namespace WebAPI.Utils
             };
              
             return order;
+        }
+
+        public static Voucher AssignVoucher (VoucherDTO voucherDTO, long id)
+        {
+            var _context = new TGDDContext();
+
+            if (id == 0)
+            {
+                id = _context.Vouchers.Max(o => o.Id) + 1;
+            }
+
+            var newVoucher = new Voucher { 
+                Id = id,
+                Code = voucherDTO.Code,
+                DiscountPercent = voucherDTO.DiscountPercent,
+                Name = voucherDTO.Name,
+                StartDate = DateTime.Parse(voucherDTO.StartDate),
+                EndDate = DateTime.Parse(voucherDTO.EndDate),
+            };
+
+            return newVoucher;
         }
         public static Product AssignProduct(ProductDTO productsDTO, long id)
         {

@@ -14,7 +14,7 @@ namespace WebAPI.ActionModels.OrdersMGT
         {
             var _context = new TGDDContext();
 
-            var orders = _context.Orders.Include(o => o.OrderDetails)
+            var orders = _context.Orders.Include(o => o.OrderDetails).ThenInclude(d=>d.Product)
                                                .Include(o => o.Status)
                                                .Include(o => o.Customer);
             return await orders.ToListAsync();

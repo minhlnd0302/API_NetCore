@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 #nullable disable
@@ -17,7 +16,6 @@ namespace WebAPI.Models
         public string Name { get; set; }
         public string Country { get; set; }
 
-        [JsonIgnore]
         public virtual ICollection<Product> Products { get; set; }
     }
 }

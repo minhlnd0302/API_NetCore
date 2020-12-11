@@ -16,19 +16,20 @@ namespace WebAPI.Controllers
     [Route("[controller]")]
     [ApiController]
     public class OrdersController : ControllerBase
-    { 
+    {
         // GET: /Orders
 
-        //[Authorize(Roles = "0")]
+        //https://minhlnd.azurewebsites.net/orders
+        [Authorize(Roles = "0")]
         [HttpGet]
-        // get all orders
+        //get all orders
         public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
         { 
             var ordersGetAll = new OrdersGetAll();
             return await ordersGetAll.Excute();
         }
 
-        // GET: Orders/5
+        //https://minhlnd.azurewebsites.net/orders/OrderId 
         [Authorize]
         [HttpGet("{OrderId}")]
         // get order from id order
@@ -39,8 +40,8 @@ namespace WebAPI.Controllers
             return await orderGetById.Excute();
         }
 
-
-        [Authorize]
+        //https://minhlnd.azurewebsites.net/orders/search?customerId=1
+        //[Authorize]
         [HttpGet("search")]
         // get order from id order
         public async Task<ActionResult<IEnumerable<Order>>> GetOrderByCustomerId([FromQuery] long customerId)

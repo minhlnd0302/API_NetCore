@@ -2,7 +2,6 @@ E:\API_NetCore\WebAPI\WebAPI\bin\Debug\netcoreapp3.1\appsettings.Development.jso
 E:\API_NetCore\WebAPI\WebAPI\bin\Debug\netcoreapp3.1\appsettings.json
 E:\API_NetCore\WebAPI\WebAPI\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
 E:\API_NetCore\WebAPI\WebAPI\bin\Debug\netcoreapp3.1\WebAPI.exe
-E:\API_NetCore\WebAPI\WebAPI\obj\Debug\netcoreapp3.1\WebAPI.csprojAssemblyReference.cache
 E:\API_NetCore\WebAPI\WebAPI\obj\Debug\netcoreapp3.1\WebAPI.AssemblyInfoInputs.cache
 E:\API_NetCore\WebAPI\WebAPI\obj\Debug\netcoreapp3.1\WebAPI.AssemblyInfo.cs
 E:\API_NetCore\WebAPI\WebAPI\obj\Debug\netcoreapp3.1\WebAPI.RazorTargetAssemblyInfo.cache
@@ -165,3 +164,4 @@ E:\API_NetCore\WebAPI\WebAPI\bin\Debug\netcoreapp3.1\Microsoft.Bcl.AsyncInterfac
 E:\API_NetCore\WebAPI\WebAPI\obj\Debug\netcoreapp3.1\WebAPI.csproj.CoreCompileInputs.cache
 E:\API_NetCore\WebAPI\WebAPI\obj\Debug\netcoreapp3.1\WebAPI.MvcApplicationPartsAssemblyInfo.cache
 E:\API_NetCore\WebAPI\WebAPI\bin\Debug\netcoreapp3.1\Azure.Storage.Blobs.dll
+E:\API_NetCore\WebAPI\WebAPI\obj\Debug\netcoreapp3.1\WebAPI.csprojAssemblyReference.cache

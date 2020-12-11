@@ -24,7 +24,7 @@ namespace WebAPI.Controllers
 
         // GET: Customers
         // get all customers
-        [Authorize(Roles = "0")]
+        //[Authorize(Roles = "0")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
         {
@@ -44,14 +44,14 @@ namespace WebAPI.Controllers
 
 
         //get customer from username
-        [HttpGet]
-        public async Task<ActionResult<Customer>> GetCustomerFromUserName(string username)
-        {
+        //[HttpGet]
+        //public async Task<ActionResult<Customer>> GetCustomerFromUserName(string username)
+        //{
 
-            CustomersGetByUserName customersGetByUserName = new CustomersGetByUserName { Username = username };
+        //    CustomersGetByUserName customersGetByUserName = new CustomersGetByUserName { Username = username };
 
-            return await customersGetByUserName.Excute();
-        }
+        //    return await customersGetByUserName.Excute();
+        //}
 
 
         [HttpGet("{username}")]

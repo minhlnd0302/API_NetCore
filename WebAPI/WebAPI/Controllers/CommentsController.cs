@@ -14,8 +14,8 @@ using WebAPI.Utils;
 namespace WebAPI.Controllers
 {
     [Route("[controller]")]
-    [ApiController]
-    public class CommentsController : ControllerBase
+    [ApiController] 
+    public class CommentsController : ControllerBase 
     {   
         // get all comment
         // GET: https://minhlnd.azurewebsites.net/Comments

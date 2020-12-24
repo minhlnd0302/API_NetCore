@@ -21,9 +21,8 @@ namespace WebAPI.Controllers
         {
             var favoriteGetByCustomerId = new FavoritesGetByCustomerId { CustomerId = CustomerId };
             return await favoriteGetByCustomerId.Excute();
-        }
+        } 
 
-         
         [HttpPost]
         public async Task<ActionResult<Favorite>> PostFavorite(Favorite favorite)
         {

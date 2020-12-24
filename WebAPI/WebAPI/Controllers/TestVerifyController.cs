@@ -31,38 +31,42 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> SignUp()
         {
             var customer = new Customer
-            {
-                UserName = "user1"
+            { 
+                UserName = "user1",
+                Password = "test"
             };
-            string sMessage = "";
+            
+
+
             var user = await _loginInfoService.SignUp(customer);
 
-            MailClass mailClass = this.GetMailObject();
+            MailClass mailClass = this.GetMailObject(customer);
             await _mailService.SendMail(mailClass);
             return Ok("adasd");
         }
 
 
         [AllowAnonymous]
-        [HttpPost("ConfirmMail")]
-        public async Task<IActionResult> ConfirmMail(string username)
+        [HttpGet("ConfirmMail/{username}/{pw}")]
+        public async Task<IActionResult> ConfirmMail(string username, string pw)
         {
-            string message = await _loginInfoService.ConfirmMail(username);
+            //string message = await _loginInfoService.ConfirmMail(username);
             return Ok("thanhf coong");
         }
 
-        public MailClass GetMailObject()
+        public MailClass GetMailObject(Customer customer)
         {
             MailClass mailClass = new MailClass();
-            var tmp = new Customer
-            {
-                UserName = "user1"
-            };
+            //var tmp = new Customer
+            //{
+            //    UserName = "user1"
+            //};
 
             mailClass.Subject = "test";
-            mailClass.Body = _mailService.GetMailBody(tmp);
+            mailClass.Body = _mailService.GetMailBody(customer);
             mailClass.ToMailIds = new List<string>()
             {
+                //customer.Email,
                 "leminh2344@gmail.com"
             };
 

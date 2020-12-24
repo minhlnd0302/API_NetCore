@@ -164,4 +164,7 @@ E:\API_NetCore\WebAPI\WebAPI\bin\Debug\netcoreapp3.1\Microsoft.Bcl.AsyncInterfac
 E:\API_NetCore\WebAPI\WebAPI\obj\Debug\netcoreapp3.1\WebAPI.csproj.CoreCompileInputs.cache
 E:\API_NetCore\WebAPI\WebAPI\obj\Debug\netcoreapp3.1\WebAPI.MvcApplicationPartsAssemblyInfo.cache
 E:\API_NetCore\WebAPI\WebAPI\bin\Debug\netcoreapp3.1\Azure.Storage.Blobs.dll
+E:\API_NetCore\WebAPI\WebAPI\bin\Debug\netcoreapp3.1\Properties\serviceDependencies.json
+E:\API_NetCore\WebAPI\WebAPI\bin\Debug\netcoreapp3.1\Properties\serviceDependencies.local.json
+E:\API_NetCore\WebAPI\WebAPI\bin\Debug\netcoreapp3.1\Properties\ServiceDependencies\local\mssql1.arm.json
 E:\API_NetCore\WebAPI\WebAPI\obj\Debug\netcoreapp3.1\WebAPI.csprojAssemblyReference.cache

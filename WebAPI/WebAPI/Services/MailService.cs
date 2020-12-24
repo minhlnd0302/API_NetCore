@@ -11,27 +11,28 @@ namespace WebAPI.Services
 {
     public class MailService : IMailService
     {
-        public string GetMailBody(Customer oCustomer )
+        public string GetMailBody(Customer oCustomer)
         {
-            string url = Global.DomainName + "TestVerify/ConfirmMail?UserName=" + oCustomer.UserName;
+            string url = Global.DomainName + "TestVerify/ConfirmMail/" + oCustomer.UserName+"/"+oCustomer.Password;
             return string.Format(@"<div style='text-align:center;'>
                                        <h1>Welcome to our Web Site</h1>
                                        <h3>Click below button for verify your Email Id</h3>
-                                       <form method='post' action='{0}' style = 'display : inline;' >
+                                       <form method='get' action='{0}' style = 'display : inline;' >
                                              <button type = 'submit' style='display : block;
                                                                                 text-align : center;
                                                                                 font-weight : bold;
                                                                                 background-color : #008CBA;
-                                                                                font-site : 16px;
+                                                                                font-size : 16px;
                                                                                 border-radius : 10px;
-                                                                                color : #ffffff
+                                                                                color : #ffffff;
                                                                                 cursor : pointer;
-                                                                                width : 100px;
+                                                                                width : 200px;
                                                                                 padding: 10px;'>
-                                                   Confirm Mail
+                                                    Confirm Mail
                                             </button>
                                       </form>
-                                  </div>", url, oCustomer.UserName);
+                                  </div>", url); 
+            
         }
 
         public async Task<string> SendMail(MailClass oMailClass)

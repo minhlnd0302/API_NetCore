@@ -9,29 +9,36 @@ using Microsoft.EntityFrameworkCore;
 using WebAPI.ActionModels.CustomersMGT;
 using WebAPI.Models;
 
+using WebAPI.ActionModels.CustomersMGT.CustomersVerifyEmail;
+using WebAPI.IServices;
+
 namespace WebAPI.Controllers
 {
     [Route("[controller]")]
     [ApiController]
     public class CustomersController : ControllerBase
-    {
-        private readonly TGDDContext _context;
+    { 
+        private IMailService _mailService;
 
-        public CustomersController(TGDDContext context)
+       
+        public CustomersController(IMailService mailService)
         {
-            _context = context;
+            _mailService = mailService;
         }
 
+        //https://minhlnd.azurewebsites.net/Customers/all
         // GET: Customers
         // get all customers
         //[Authorize(Roles = "0")]
-        [HttpGet]
+        [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
         {
             CustomersGetAll customerGetAll = new CustomersGetAll();
             return await customerGetAll.Excute();
         }
 
+
+        //https://minhlnd.azurewebsites.net/Customers/1
         // GET: Customers/5
         // get info user from id
         [HttpGet("{id}")]
@@ -40,64 +47,52 @@ namespace WebAPI.Controllers
             CustomersGetById customersGetById = new CustomersGetById { Id = id };
 
             return await customersGetById.Excute();
-        }
+        } 
 
 
-        //get customer from username
-        //[HttpGet]
-        //public async Task<ActionResult<Customer>> GetCustomerFromUserName(string username)
-        //{
-
-        //    CustomersGetByUserName customersGetByUserName = new CustomersGetByUserName { Username = username };
-
-        //    return await customersGetByUserName.Excute();
-        //}
-
-
-        [HttpGet("{username}")]
-        public async Task<ActionResult<Customer>> GetCustomerFromUsername(string username)
+        //https://minhlnd.azurewebsites.net/Customers?username=user1
+        [HttpGet]
+        public async Task<ActionResult<Customer>> GetCustomerFromUsername([FromQuery]string username)
         {
-            var customer = await _context.Customers.FindAsync(username);
+            CustomersGetByUserName customersGetByUserName = new CustomersGetByUserName { Username = username }; 
 
-            if (customer == null)
-            {
-                return NotFound();
-            } 
-
-            return customer;
+            return await customersGetByUserName.Excute();
         }
+
 
         // PUT: api/Customers/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCustomers(long id, Customer customer)
-        {
-            if (id != customer.Id)
-            {
-                return BadRequest();
-            }
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> PutCustomers(long id,[FromBody] Customer customer)
+        //{
+        //    //if (id != customer.Id)
+        //    //{
+        //    //    return BadRequest();
+        //    //}
 
-            _context.Entry(customer).State = EntityState.Modified;
+        //    customer.Id = id;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CustomersExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //    _context.Entry(customer).State = EntityState.Modified;
 
-            return NoContent();
-        }
+        //    try
+        //    {
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!CustomersExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
+
+        //    return NoContent();
+        //}
 
          
         // create customer
@@ -105,15 +100,27 @@ namespace WebAPI.Controllers
         [HttpPost("add")]
         public async Task<ActionResult<Customer>> PostCustomers(Customer customer)
         {
-            var customerCreate = new CustomersCreate { Customer = customer };
+           var customerCreate = new CustomersCreate (_mailService,customer);
 
-            return await customerCreate.Excute();
+           return await customerCreate.Excute();
         }
 
-        // DELETE: api/Customers/5
+        [AllowAnonymous]
+        [HttpGet("ConfirmMail/{username}/{pw}")]
+        public async Task<IActionResult> ConfirmMail(string username, string pw)
+        {
+            VerifyEmail verifyEmail = new VerifyEmail { 
+                Username = username,
+                Pw = pw,
+            }; 
+            return await verifyEmail.Excute();
+        }
+
+         
         [HttpDelete("{id}")]
         public async Task<ActionResult<Customer>> DeleteCustomers(long id)
         {
+            var _context = new TGDDContext();
             var customer = await _context.Customers.FindAsync(id);
             if (customer == null)
             {
@@ -126,9 +133,9 @@ namespace WebAPI.Controllers
             return customer;
         }
 
-        private bool CustomersExists(long id)
-        {
-            return _context.Customers.Any(e => e.Id == id);
-        }
+        //private bool CustomersExists(long id)
+        //{
+        //    return _context.Customers.Any(e => e.Id == id);
+        //} 
     }
 }

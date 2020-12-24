@@ -1,0 +1,22 @@
+{
+  "dependencies": {
+    "secrets1": {
+      "restored": true,
+      "restoreTime": "2020-12-12T06:15:59.3427612Z"
+    },
+    "mssql1": {
+      "restored": true,
+      "restoreTime": "2020-12-12T06:16:04.8412211Z"
+    }
+  },
+  "parameters": {
+    "mssql1.subscriptionId": {
+      "Type": "subscription",
+      "Value": "66859817-166e-4895-a892-b5c853c45a8f"
+    },
+    "mssql1.resourceGroupName": {
+      "Type": "resourceGroup",
+      "Value": "NetCore_API"
+    }
+  }
+}

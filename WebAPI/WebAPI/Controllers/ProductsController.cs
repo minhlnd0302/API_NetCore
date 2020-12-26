@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-//using Microsoft.AspNetCore.Razor.Language;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using WebAPI.DTOModels;
@@ -42,8 +41,8 @@ namespace WebAPI.Controllers
             return await product.Excute();
         }
 
-        [AllowAnonymous]
-        [HttpPost("test")]
+        //[AllowAnonymous]
+        //[HttpPost("test")]
         //public async Task<ActionResult<Product>> testFile(List<IFormFile> files)
         //{
         //    var a = 0;

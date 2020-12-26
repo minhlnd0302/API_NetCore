@@ -46,13 +46,13 @@ namespace WebAPI.Controllers
         }
 
 
-        [AllowAnonymous]
-        [HttpGet("ConfirmMail/{username}/{pw}")]
-        public async Task<IActionResult> ConfirmMail(string username, string pw)
-        {
-            //string message = await _loginInfoService.ConfirmMail(username);
-            return Ok("thanhf coong");
-        }
+        //[AllowAnonymous]
+        //[HttpGet("ConfirmMail/{username}/{pw}")]
+        //public async Task<IActionResult> ConfirmMail(string username, string pw)
+        //{
+        //    //string message = await _loginInfoService.ConfirmMail(username);
+        //    return Ok("thanhf coong");
+        //}
 
         public MailClass GetMailObject(Customer customer)
         {

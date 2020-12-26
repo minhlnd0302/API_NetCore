@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -74,6 +75,10 @@ namespace WebAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+            //else
+            //{
+            //    app.UseHsts();
+            //}
 
             app.UseHttpsRedirection();
 
@@ -82,10 +87,18 @@ namespace WebAPI
             app.UseAuthentication();
             app.UseAuthorization();
 
+            //app.UseStaticFiles();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
+
+            //app.Run(async (context) =>
+            //{
+            //    await context.Response.WriteAsync("Could Not Find Anything");
+            //});
         }
     }
 }

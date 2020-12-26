@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WebAPI.ActionModels.FilesMGT;
 using WebAPI.Models;
 
 namespace WebAPI.Controllers
@@ -16,47 +15,11 @@ namespace WebAPI.Controllers
     public class ImagesController : ControllerBase
     {
         private readonly TGDDContext _context;
-        public static IWebHostEnvironment _environment;
 
-        public ImagesController(TGDDContext context, IWebHostEnvironment environment)
+        public ImagesController(TGDDContext context)
         {
             _context = context;
-            _environment = environment;
         }
-
-        public class FileUploadAPI
-        {
-            public IFormFile files { get; set; }
-        }
-
-
-        [HttpPost]
-        public async Task<string> Post (FileUploadAPI objFile)
-        {
-
-            try
-            {
-                if (objFile.files.Length > 0)
-                {
-                    if (!Directory.Exists(_environment.WebRootPath + "\\Upload\\"))
-                    {
-                        Directory.CreateDirectory(_environment.WebRootPath + "\\Upload\\");
-                    }
-
-                    using (FileStream fileStream = System.IO.File.Create(_environment.WebRootPath + "\\Upload\\" + objFile.files))
-                    {
-                        objFile.files.CopyTo(fileStream);
-                        fileStream.Flush();
-                        return "\\Upload\\" + objFile.files.FileName;
-                    }
-                }
-            }
-            catch(Exception ex)
-            {
-                return ex.Message.ToString();
-            }
-            
-        } 
 
         // GET: api/Images
         [HttpGet]
@@ -67,7 +30,7 @@ namespace WebAPI.Controllers
 
         // GET: api/Images/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Image>> GetImages(long id)
+        public async Task<ActionResult<Image>> GetImage(long id)
         {
             var image = await _context.Images.FindAsync(id);
 
@@ -83,7 +46,7 @@ namespace WebAPI.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutImages(long id, Image image)
+        public async Task<IActionResult> PutImage(long id, Image image)
         {
             if (id != image.Id)
             {
@@ -98,7 +61,7 @@ namespace WebAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ImagesExists(id))
+                if (!ImageExists(id))
                 {
                     return NotFound();
                 }
@@ -114,34 +77,42 @@ namespace WebAPI.Controllers
         // POST: api/Images
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        //[HttpPost]
-        //public async Task<ActionResult> PostImages([FromBody] List<IFormFile> files)
-        //{
-        //    _context.Images.Add(image);
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateException)
-        //    {
-        //        if (ImagesExists(image.Id))
-        //        {
-        //            return Conflict();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
+        [HttpPost]
+        public async Task<ActionResult<Image>> PostImage(IFormFile file)
+        {
 
-        //    return CreatedAtAction("GetImages", new { id = image.Id }, image);
 
-        //    return Ok("DS");
-        //}
+            var filesUpload = new FilesUpload(file,8);
+           
+
+            await filesUpload.Excute();
+
+            //var image = new Image();
+            //_context.Images.Add(image);
+            //try
+            //{
+            //    await _context.SaveChangesAsync();
+            //}
+            //catch (DbUpdateException)
+            //{
+            //    if (ImageExists(image.Id))
+            //    {
+            //        return Conflict();
+            //    }
+            //    else
+            //    {
+            //        throw;
+            //    }
+            //}
+
+            //return CreatedAtAction("GetImage", new { id = image.Id }, image);
+
+            return Ok();
+        }
 
         // DELETE: api/Images/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Image>> DeleteImages(long id)
+        public async Task<ActionResult<Image>> DeleteImage(long id)
         {
             var image = await _context.Images.FindAsync(id);
             if (image == null)
@@ -155,7 +126,7 @@ namespace WebAPI.Controllers
             return image;
         }
 
-        private bool ImagesExists(long id)
+        private bool ImageExists(long id)
         {
             return _context.Images.Any(e => e.Id == id);
         }

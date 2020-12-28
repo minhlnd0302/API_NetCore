@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using WebAPI.ActionModels.CustomersMGT.CustomersVerifyEmail;
+using WebAPI.Controllers;
 using WebAPI.IServices;
 using WebAPI.Models;
 using WebAPI.Services;
@@ -30,6 +31,7 @@ namespace WebAPI.ActionModels.CustomersMGT
 
             var newCustomerId = _context.Customers.Max(c => c.Id) + 1;
             Customer.Id = newCustomerId;
+            Customer.Password = SecurityUtils.CreateMD5(Customer.Password);
 
             _context.Customers.Add(Customer);
             try

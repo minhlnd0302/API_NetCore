@@ -105,6 +105,20 @@ namespace WebAPI.Controllers
            return await customerCreate.Excute();
         }
 
+
+        [HttpPost("ChangePassword")]
+        public async Task<ActionResult<Customer>> ChangerPassword([FromBody] long CustomerId, string OldPassword, string NewPassword)
+        {
+            CustomersChangePassword customersChangePassword = new CustomersChangePassword
+            {
+                CustomerId = CustomerId,
+                OldPassword = OldPassword,
+                NewPassword = NewPassword,
+            };
+
+            return await customersChangePassword.Excute();
+        }
+
         [AllowAnonymous]
         [HttpGet("ConfirmMail/{username}/{pw}")]
         public async Task<IActionResult> ConfirmMail(string username, string pw)

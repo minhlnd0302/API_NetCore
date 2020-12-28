@@ -29,6 +29,8 @@ namespace WebAPI.Controllers
 
         public ProductsController(TGDDContext context)
         {
+            //string tmp = SecurityUtils.CreateMD5("testtest");
+
             _context = context;
         }
 

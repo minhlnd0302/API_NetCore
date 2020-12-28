@@ -96,6 +96,8 @@ namespace WebAPI.Controllers
             Admin admin = null;
             //var _context = new TGDDContext();
 
+            loginInfo.Password = SecurityUtils.CreateMD5(loginInfo.Password);
+
             admin = _context.Admins.FirstOrDefault(a => a.UserName == loginInfo.UserName && a.Password == loginInfo.Password);
 
             return admin;
@@ -105,7 +107,10 @@ namespace WebAPI.Controllers
             Customer customer = null;
             //var _context = new TGDDContext();
 
+            loginInfo.Password = SecurityUtils.CreateMD5(loginInfo.Password); 
+
             customer = _context.Customers.FirstOrDefault(a => a.UserName == loginInfo.UserName && a.Password == loginInfo.Password);
+             
 
             return customer;
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 #nullable disable
@@ -15,7 +16,9 @@ namespace WebAPI.Models
         public int? Ratting { get; set; }
         public bool? Bought { get; set; }
 
+        [JsonIgnore] 
         public virtual Customer Customer { get; set; }
+        [JsonIgnore] 
         public virtual Product Product { get; set; }
     }
 }

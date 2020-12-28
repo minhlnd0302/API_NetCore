@@ -17,6 +17,7 @@ using WebAPI.ActionModels.ProductMGT;
 using System.IO;
 using Azure.Storage.Blobs;
 using Azure.Storage;
+using WebAPI.ActionModels.ProductsMGT;
 
 namespace WebAPI.Controllers
 {
@@ -39,19 +40,7 @@ namespace WebAPI.Controllers
             var product = new ProductsGetAll();
 
             return await product.Excute();
-        }
-
-        //[AllowAnonymous]
-        //[HttpPost("test")]
-        //public async Task<ActionResult<Product>> testFile(List<IFormFile> files)
-        //{
-        //    var a = 0;
-              
-
-        //    //return JsonConvert.DeserializeObject(tmp);
-
-        //    return Ok();
-        //}
+        } 
 
         //public static async Task<bool> UploadFileToStorage(Stream fileStream, string fileName,
         //                                            AzureStorageConfig _storageConfig)
@@ -196,15 +185,9 @@ namespace WebAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Product>> DeleteProducts(long id)
         {
-            var products = await _context.Products.FindAsync(id);
-            if (products == null)
-            {
-                return NotFound();
-            }
+            ProductsDelete productsDelete = new ProductsDelete { ProductId = id };
 
-            _context.Products.Remove(products);
-            await _context.SaveChangesAsync();
-            return Ok();
+            return await productsDelete.Excute();
         }
 
         private bool ProductsExists(long id)

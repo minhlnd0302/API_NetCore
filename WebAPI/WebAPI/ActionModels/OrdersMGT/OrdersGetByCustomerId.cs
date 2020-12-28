@@ -15,10 +15,16 @@ namespace WebAPI.ActionModels.OrdersMGT
         {
             var _context = new TGDDContext();
 
-            List<Order> orders = await _context.Orders.Where(order => order.CustomerId == CustomerId).Include(order=> order.Customer)
-                                                                                            .Include(order => order.OrderDetails).ThenInclude(orderDetail=> orderDetail.Product)
-                                                                                            .Include(order=>order.Status)
-                                                                                            .ToListAsync();
+            //var orders = await _context.Orders.Where(order => order.CustomerId == CustomerId).Include(order => order.Customer)
+            //                                                                                .Include(order => order.OrderDetails).ThenInclude(orderDetail => orderDetail.Product)
+            //                                                                                .Include(order => order.Status)
+            //                                                                                .ToListAsync();
+
+            var orders = await _context.Orders.Where(order => order.CustomerId == CustomerId).Include(order => order.Status).ToListAsync();
+
+
+
+            //var orders = await _context.Orders.ToListAsync();
 
             if (orders.Count < 1)
             {

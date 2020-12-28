@@ -16,6 +16,9 @@ namespace WebAPI.ActionModels.ContactsMGT
             var _context = new TGDDContext();
 
             contact.Id = _context.Contacts.Max(c => c.Id) + 1;
+            contact.Date = DateTime.Now;
+            contact.IsReply = false;
+          
 
             _context.Contacts.Add(contact);
             try

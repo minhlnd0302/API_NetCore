@@ -17,7 +17,7 @@ namespace WebAPI.Controllers
     { 
         // GET: api/Favorites/5
         [HttpGet("{CustomerId}")]
-        public async Task<ActionResult<List<long?>>> GetFavorite(long CustomerId)
+        public async Task<ActionResult<IList<long?>>> GetFavorite(long CustomerId)
         {
             var favoriteGetByCustomerId = new FavoritesGetByCustomerId { CustomerId = CustomerId };
             return await favoriteGetByCustomerId.Excute();

@@ -41,7 +41,7 @@ namespace WebAPI.Controllers
         }
 
         //https://minhlnd.azurewebsites.net/orders/search?customerId=1
-        //[Authorize]
+        [Authorize]
         [HttpGet("search")]
         // get order from id order
         public async Task<ActionResult<IEnumerable<Order>>> GetOrderByCustomerId([FromQuery] long customerId)
@@ -77,6 +77,7 @@ namespace WebAPI.Controllers
         // POST: api/Orders
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Order>> PostOrders(OrderDTO orderDTO)
         {

@@ -13,15 +13,16 @@ namespace WebAPI.ActionModels
     {
         public async Task<ActionResult<IEnumerable<Product>>> Excute()
         {
-            var _context = new TGDDContext();
+            var _context = new TGDDContext(); 
 
-            var products = _context.Products.Include(p => p.Descriptions)
+            var products = await _context.Products.Include(p => p.Descriptions)
                                             .Include(p => p.Images)
                                             .Include(p => p.Category)
                                             .Include(p => p.Brand)
-                                            .Include(p => p.Comments);
+                                            .Include(p => p.Comments)
+                                            .ToListAsync();
 
-            return await products.ToListAsync();
+            return products;
         }
     }
 }

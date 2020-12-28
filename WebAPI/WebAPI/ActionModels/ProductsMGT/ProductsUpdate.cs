@@ -7,5 +7,6 @@ namespace WebAPI.ActionModels.ProductsMGT
 {
     public class ProductsUpdate
     {
+
     }
 }

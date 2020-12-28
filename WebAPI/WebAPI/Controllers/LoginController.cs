@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web.Http.Cors;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.JsonWebTokens;
+using WebAPI.ActionModels.LoginMGT;
 using WebAPI.Models;
 using WebAPI.Utils;
 
 namespace WebAPI.Controllers
 {
+    //[EnableCors(origins: "http://localhost:3000", headers: "*", methods: "*")]
     [Route("[controller]")]
     [ApiController]
     public class LoginController : ControllerBase
@@ -33,56 +36,27 @@ namespace WebAPI.Controllers
         [AllowAnonymous]
         [HttpPost("Customer")]
          
-        public IActionResult LoginCustomer([FromBody] Login admin)
-        {  
-            //Customers login = new Customers();
+        public async Task<IActionResult> LCustomer([FromBody] Login customer)
+        {
+            LoginCustomer login = new LoginCustomer
+            {
+                CustomerLogin = customer
+            };
 
-            //login.UserName = admin.username;
-            //login.Password = admin.password;
-
-            //IActionResult response = Unauthorized();
-
-            //var user = SecurityUtils.AuthenticateCustomer(login);
-
-            //if (user != null)
-            //{
-            //    var tokenStr = SecurityUtils.GenerateJSONWebToken(user);
-            //    response = Ok(new { token = tokenStr, user = user });
-            //}
-            //else
-            //{
-            //    return StatusCode(403);
-            //}
-
-            //return response;
-
-            return admin.Excute();
+            return login.Excute();
         }
 
 
         [AllowAnonymous]
         [HttpPost("Admin")]
-        public IActionResult LoginAdmin([FromBody] Login admin)
+        public IActionResult LAdmin([FromBody] Login admin)
         {
-            Admin login = new Admin();
-
-            login.UserName = admin.username;
-            login.Password = admin.password;
-
-            IActionResult response = Unauthorized();
-
-            var user = SecurityUtils.AuthenticateAdmin(login);
-
-            if (user != null)
+            LoginAdmin login = new LoginAdmin
             {
-                var tokenStr = SecurityUtils.GenerateJSONWebToken(user);
-                response = Ok(new { token = tokenStr, user = user });
-            }
-            else
-            {
-                return StatusCode(403);
-            }
-            return response;
+                AdminLogin = admin
+            };
+
+            return login.Excute(); 
         }
 
         [HttpPost]

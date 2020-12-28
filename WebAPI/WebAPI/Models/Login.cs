@@ -23,34 +23,34 @@ namespace WebAPI.Models
 {
     public class Login
     {
-        public string username { get; set; }
-        public string password { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
 
-        public IActionResult Excute()
-        {
-            Customer login = new Customer();
+        //public IActionResult Excute()
+        //{
+        //    Customer login = new Customer();
 
-            login.UserName = username;
-            login.Password = password;
+        //    login.UserName = username;
+        //    login.Password = password;
 
-            IActionResult response = new UnauthorizedResult();
+        //    IActionResult response = new UnauthorizedResult();
 
-            var user = SecurityUtils.AuthenticateCustomer(login);
+        //    var user = SecurityUtils.AuthenticateCustomer(login);
 
-            if (user != null)
-            {
-                var tokenStr = SecurityUtils.GenerateJSONWebToken(user);
-                response = new OkObjectResult(new { token = tokenStr, user = user });
-            }
-            else
-            {
-                //return StatusCode(403);
-                return new StatusCodeResult(403);
-            }
+        //    if (user != null)
+        //    {
+        //        var tokenStr = SecurityUtils.GenerateJSONWebToken(user);
+        //        response = new OkObjectResult(new { token = tokenStr, user = user });
+        //    }
+        //    else
+        //    {
+        //        //return StatusCode(403);
+        //        return new StatusCodeResult(403);
+        //    }
 
-            return response;
+        //    return response;
 
-        }
+        //}
 
     }
 }

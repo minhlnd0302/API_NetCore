@@ -37,10 +37,38 @@ namespace WebAPI
             Global.ConnectionString = Configuration.GetConnectionString("MyProject");
             Global.DomainName = Configuration["DomainName"];
 
+            //services.AddCors(); // Make sure you call this previous to AddMvc
+
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("CorsPolicy", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+            //});
+
+
+
             services.AddCors(options =>
             {
-                options.AddPolicy("CorsPolicy", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+                options.AddDefaultPolicy(b => b.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             });
+
+
+
+
+
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("CorsPolicy", builder => builder.AllowAnyOrigin());
+            //});
+
+            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+
+            //EnableCorsAttribute cors = new EnableCorsAttribute("http://localhost:80/DemoApp/WebForm1.aspx", "*", "GET,POST");
+            //config.EnableCors(cors);
+
+
+
+
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
@@ -84,6 +112,9 @@ namespace WebAPI
 
             app.UseRouting();
 
+            app.UseCors();
+
+
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -93,6 +124,7 @@ namespace WebAPI
             {
                 endpoints.MapControllers();
             });
+
 
 
             //app.Run(async (context) =>

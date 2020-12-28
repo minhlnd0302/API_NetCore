@@ -142,7 +142,7 @@ namespace WebAPI.Models
                     .HasMaxLength(1)
                     .IsUnicode(false);
 
-                entity.Property(e => e.IsReply).HasColumnName("Is_Reply");
+                entity.Property(e => e.IsReply).HasColumnName("IsReply");
 
                 entity.Property(e => e.Message).HasColumnType("ntext");
 
@@ -266,7 +266,7 @@ namespace WebAPI.Models
 
                 entity.Property(e => e.PaymentMethod)
                     .HasMaxLength(200)
-                    .HasColumnName("Payment_method");
+                    .HasColumnName("PaymentMethod");
 
                 entity.Property(e => e.ShippingAddress).HasMaxLength(200);
 

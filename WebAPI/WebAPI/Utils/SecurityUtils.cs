@@ -17,11 +17,10 @@ namespace WebAPI.Controllers
     using WebAPI.Controllers;
     public static class SecurityUtils
     {
-        //kiểm tra token có phải là admin hay không
-
-        public static TGDDContext _context; 
+        //kiểm tra token có phải là admin hay không 
         
         public static IConfiguration _config;
+        public static TGDDContext _context;
         public static bool IsAdmin(TGDDContext _context, string username)
         {
             Admin admin = null;
@@ -50,10 +49,12 @@ namespace WebAPI.Controllers
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
+
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, userinfo.UserName),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.Role, userinfo.Role.ToString()),
             };
 
             var token = new JwtSecurityToken(
@@ -90,19 +91,21 @@ namespace WebAPI.Controllers
             var encodetoken = new JwtSecurityTokenHandler().WriteToken(token);
             return encodetoken;
         }
-        public static Admin AuthenticateAdmin(Admin loginAdmin)
+        public static Admin AuthenticateAdmin(Login loginInfo)
         {
             Admin admin = null;
+            //var _context = new TGDDContext();
 
-            admin = _context.Admins.FirstOrDefault(a => a.UserName == loginAdmin.UserName && a.Password == loginAdmin.Password);
+            admin = _context.Admins.FirstOrDefault(a => a.UserName == loginInfo.UserName && a.Password == loginInfo.Password);
 
             return admin;
         }
-        public static Customer AuthenticateCustomer(Customer loginAdmin)
+        public static Customer AuthenticateCustomer(Login loginInfo)
         {
             Customer customer = null;
+            //var _context = new TGDDContext();
 
-            customer = _context.Customers.FirstOrDefault(a => a.UserName == loginAdmin.UserName && a.Password == loginAdmin.Password);
+            customer = _context.Customers.FirstOrDefault(a => a.UserName == loginInfo.UserName && a.Password == loginInfo.Password);
 
             return customer;
         }

@@ -56,12 +56,13 @@ namespace WebAPI.Utils
             order.Note = orderDTO.Note;
             order.PaymentMethod = orderDTO.PaymentMethod;
 
-            var orderDetailId = new long();
-            OrderDetail od ;
+            var orderDetailId = _context.OrderDetails.Max(od => od.Id);
+            // OrderDetail od ; 
+         
             foreach(var orderDetail in orderDTO.OrderDetails)
-            {
-                od = new OrderDetail();
-                orderDetailId = _context.OrderDetails.Max(od => od.Id) + 1;
+            { 
+                var od = new OrderDetail();
+                orderDetailId ++ ;
                 od.Id = orderDetailId;
                 od.Quantity = orderDetail.Quantity;
                 od.ProductId = orderDetail.ProductId;

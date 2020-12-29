@@ -17,11 +17,11 @@ namespace WebAPI.ActionModels.FavoritesMGT
 
 
 
-            //favorites = await _context.Favorites.Where(f => f.CustomerId == CustomerId).ToListAsync();
+            List<Favorite> favorites = await _context.Favorites.Where(f => f.CustomerId == CustomerId).ToListAsync();
 
             //IList<Favorite> favorites = await _context.Favorites.ToListAsync();
 
-            IList<Favorite> favorites = null;
+            //IList<Favorite> favorites = null;
 
             var productsId = new List<long?>();
 

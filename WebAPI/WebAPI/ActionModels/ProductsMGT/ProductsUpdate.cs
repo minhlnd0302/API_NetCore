@@ -8,9 +8,7 @@ namespace WebAPI.ActionModels.ProductsMGT
 {
     public class ProductsUpdate
     {
-        public Product Product { get; set; }
-
-
+        public Product Product { get; set; } 
 
     }
 }

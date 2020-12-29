@@ -14,7 +14,9 @@ namespace WebAPI.ActionModels.VouchersMGT
     {
         public VoucherDTO voucherDTO { get; set; }
         public async Task<ActionResult<Voucher>> Excute()
-        { 
+        {
+            AssigndataUtils AssigndataUtils = new AssigndataUtils();
+
             Voucher newVoucher = AssigndataUtils.AssignVoucher(voucherDTO, 0);
 
             var _context = new TGDDContext();

@@ -16,6 +16,8 @@ namespace WebAPI.ActionModels.OrdersMGT
         public long Id { get; set; }
         public async Task<IActionResult> Excute()
         {
+            AssigndataUtils AssigndataUtils = new AssigndataUtils();
+
             var _context = new TGDDContext();
             var order = new Order();
             order = AssigndataUtils.AssignOrder(OrderDTO, Id);

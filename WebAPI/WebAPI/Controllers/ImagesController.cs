@@ -78,36 +78,20 @@ namespace WebAPI.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Image>> PostImage(IFormFile file)
-        {
+        public async Task<ActionResult<List<Uri>>> PostImage(List<IFormFile> files)
+        { 
+            List<Uri> urls = new List<Uri>(); 
 
+            foreach(IFormFile formFile in files)
+            {
+                var fileUpload = new FilesUpload(formFile);
 
-            var filesUpload = new FilesUpload(file,8);
-           
+                Uri tmpUrl = await fileUpload.Excute();
 
-            await filesUpload.Excute();
+                urls.Add(tmpUrl); 
+            }
 
-            //var image = new Image();
-            //_context.Images.Add(image);
-            //try
-            //{
-            //    await _context.SaveChangesAsync();
-            //}
-            //catch (DbUpdateException)
-            //{
-            //    if (ImageExists(image.Id))
-            //    {
-            //        return Conflict();
-            //    }
-            //    else
-            //    {
-            //        throw;
-            //    }
-            //}
-
-            //return CreatedAtAction("GetImage", new { id = image.Id }, image);
-
-            return Ok();
+            return urls;
         }
 
         // DELETE: api/Images/5

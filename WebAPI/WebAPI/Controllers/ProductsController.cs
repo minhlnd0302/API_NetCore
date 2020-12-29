@@ -44,29 +44,7 @@ namespace WebAPI.Controllers
             return await product.Excute();
         } 
 
-        //public static async Task<bool> UploadFileToStorage(Stream fileStream, string fileName,
-        //                                            AzureStorageConfig _storageConfig)
-        //{
-        //    // Create a URI to the blob
-        //    Uri blobUri = new Uri("https://" +
-        //                          _storageConfig.AccountName +
-        //                          ".blob.core.windows.net/" +
-        //                          _storageConfig.ImageContainer +
-        //                          "/" + fileName);
-
-        //    // Create StorageSharedKeyCredentials object by reading
-        //    // the values from the configuration (appsettings.json)
-        //    StorageSharedKeyCredential storageCredentials =
-        //        new StorageSharedKeyCredential(_storageConfig.AccountName, _storageConfig.AccountKey);
-
-        //    // Create the blob client.
-        //    BlobClient blobClient = new BlobClient(blobUri, storageCredentials);
-
-        //    // Upload the file
-        //    await blobClient.UploadAsync(fileStream);
-
-        //    return await Task.FromResult(true);
-        //}
+         
 
         // lay thông tin product = Id
         [HttpGet("{ProductId}")]
@@ -91,95 +69,27 @@ namespace WebAPI.Controllers
             return await tmp.Excute();
         }
 
-        // PUT: api/Products/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-
+   
         // edit/update product
         [Authorize(Roles = "0")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProducts(long id, ProductDTO product)
+        public async Task<IActionResult> PutProducts(long id,ProductDTO product)
         {
-            //if (id != products.Id)
-            //{
-            //    return BadRequest();
-            //}
-            var pro = new Product();
+            ProductsUpdate productsUpdate = new ProductsUpdate { id = id, ProductDTO = product };
 
+            return await productsUpdate.Excute();
 
-
-            _context.Entry(pro).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProductsExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(200);
         }
 
-        // POST: api/Products
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+     
 
         // add product
         [Authorize(Roles = "0")]
         [HttpPost]
-        public async Task<ActionResult<Product>> PostProducts(Product product)
+        public async Task<ActionResult<Product>> PostProducts(ProductDTO productDTO)
         {
-            var newProductId = _context.Products.Max(p => p.Id) + 1;
-            var newImageId = _context.Images.Max(p => p.Id) + 1;
-            var newDescriptId = _context.Descriptions.Max(d => d.Id) + 1;
-
-            product.Id = newProductId;
-
-            product.Brand = null;
-            product.Category = null;
-            product.OrderDetails = null;
-
-            foreach (Description item in product.Descriptions)
-            {
-                item.Id = newDescriptId;
-                item.ProductId = newProductId;
-            }
-
-
-            foreach (Image item in product.Images)
-            {
-                item.Id = newImageId;
-                newImageId++;
-
-                item.ProductId = newProductId;
-            }
-
-            _context.Products.Add(product);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (ProductsExists(product.Id))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return CreatedAtAction("GetProducts", new { id = product.Id }, product);
+            ProductsCreate productsCreate = new ProductsCreate { productDTO = productDTO };
+            return await productsCreate.Excute();
         }
 
         // DELETE: api/Products/5

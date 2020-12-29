@@ -7,6 +7,7 @@ namespace WebAPI.DTOModels
 {
     public class DescriptionDTO
     {
+        public long Id { get; set; }
         public string Ram { get; set; }
         public string Cpu { get; set; }
         public string Os { get; set; }

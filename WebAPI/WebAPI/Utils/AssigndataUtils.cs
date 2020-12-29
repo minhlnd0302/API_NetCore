@@ -7,14 +7,15 @@ using WebAPI.DTOModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using WebAPI.ActionModels.ProductsMGT;
 
 namespace WebAPI.Utils
 {
 
     public class AssigndataUtils : DbContext
-    { 
+    {
         // nếu id = 0 là thêm mới, ngược lại là chỉnh sửa
-        public static Comment AssignComment(CommentDTO commentsDTO, long id)
+        public Comment AssignComment(CommentDTO commentsDTO, long id)
         {
             var _context = new TGDDContext();
             var comment = new Comment();
@@ -36,12 +37,12 @@ namespace WebAPI.Utils
             return comment;
         }
 
-        public static Order AssignOrder(OrderDTO orderDTO, long id)
+        public Order AssignOrder(OrderDTO orderDTO, long id)
         {
             var _context = new TGDDContext();
             var order = new Order();
 
-            if(id == 0)
+            if (id == 0)
             {
                 id = _context.Orders.Max(o => o.Id) + 1;
             }
@@ -58,24 +59,29 @@ namespace WebAPI.Utils
 
             var orderDetailId = _context.OrderDetails.Max(od => od.Id);
             // OrderDetail od ; 
-         
-            foreach(var orderDetail in orderDTO.OrderDetails)
-            { 
+
+            foreach (var orderDetail in orderDTO.OrderDetails)
+            {
                 var od = new OrderDetail();
-                orderDetailId ++ ;
+                orderDetailId++;
                 od.Id = orderDetailId;
                 od.Quantity = orderDetail.Quantity;
                 od.ProductId = orderDetail.ProductId;
+
+                Product product = _context.Products.Find(od.ProductId);
+
+
+                od.CurrentPrice = product.Price;
 
                 od.OrderId = id;
 
                 order.OrderDetails.Add(od);
             };
-             
+
             return order;
         }
 
-        public static Voucher AssignVoucher (VoucherDTO voucherDTO, long id)
+        public Voucher AssignVoucher(VoucherDTO voucherDTO, long id)
         {
             var _context = new TGDDContext();
 
@@ -84,7 +90,8 @@ namespace WebAPI.Utils
                 id = _context.Vouchers.Max(o => o.Id) + 1;
             }
 
-            var newVoucher = new Voucher { 
+            var newVoucher = new Voucher
+            {
                 Id = id,
                 Code = voucherDTO.Code,
                 DiscountPercent = voucherDTO.DiscountPercent,
@@ -95,11 +102,100 @@ namespace WebAPI.Utils
 
             return newVoucher;
         }
-        public static Product AssignProduct(ProductDTO productsDTO, long id)
+        public async Task<Product> AssignProduct(ProductDTO productDTO, long ProductId)
         {
-            var product = new Product();
+            var _context = new TGDDContext();
+            Product newProduct = new Product();
 
-            return product;
+            long? DescriptionId = new long?();
+
+
+
+            if (ProductId == 0)
+            {
+                ProductId = _context.Products.Max(p => p.Id) + 1;
+                productDTO.Id = ProductId;
+
+                DescriptionId = _context.Descriptions.Max(d => d.Id) + 1;
+                productDTO.description.Id = (long)DescriptionId;
+
+
+                newProduct.Id = _context.Products.Max(p => p.Id) + 1;
+                //newProduct.Descriptions.FirstOrDefault().Id = (long)DescriptionId;
+            }
+            else
+            {
+                newProduct = await _context.Products.Where(p => p.Id == ProductId).Include(p => p.Descriptions).FirstOrDefaultAsync();
+                DescriptionId = newProduct.Descriptions.Select(d => d.Id).FirstOrDefault();
+                ProductsDeleteImage productsDeleteImage = new ProductsDeleteImage { ProductId = ProductId };
+                await productsDeleteImage.Excute(); 
+            }
+
+
+
+
+
+            newProduct.Id = ProductId;
+            newProduct.Name = productDTO.Name;
+            newProduct.Price = productDTO.Price;
+            newProduct.Stock = productDTO.Stock;
+            newProduct.DateArrive = DateTime.Now.ToString();
+            newProduct.Rating = 0;
+            newProduct.CategoryId = productDTO.CategoryId;
+            newProduct.BrandId = productDTO.BrandId;
+            newProduct.BuyingTimes = 0;
+
+            // desctiption
+            {
+                var newDescription = new Description();
+
+                newDescription.Id = (long)DescriptionId;
+                newDescription.Memory = productDTO.description.Memory;
+                newDescription.Os = productDTO.description.Os;
+                newDescription.ProductId = ProductId;
+                newDescription.Ram = productDTO.description.Ram;
+                newDescription.ScreenSize = productDTO.description.ScreenSize;
+                newDescription.Cpu = productDTO.description.Cpu;
+                newDescription.Color = productDTO.description.Color;
+                newDescription.Battery = productDTO.description.Battery;
+                newDescription.Introduction = productDTO.description.Introduction;
+                
+
+                Description description = _context.Descriptions.FirstOrDefault(d => d.ProductId == ProductId);
+
+                if (description != null)
+                {
+                    _context.Descriptions.Remove(description);
+                    _context.Descriptions.Add(newDescription);
+
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    newProduct.Descriptions = new List<Description> { newDescription };
+                }  
+            }
+
+
+            var newImageId = _context.Images.Max(i => i.Id) + 1; 
+            foreach (string url in productDTO.images)
+            {
+                var newImage = new Image
+                {
+                    Id = newImageId,
+                    Url = url,
+                    ProductId = ProductId,
+                    Product = newProduct
+
+                };
+
+                newProduct.Images.Add(newImage);
+
+
+                newImageId++;
+            }
+
+            return newProduct;
         }
     }
 }

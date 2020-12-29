@@ -20,6 +20,8 @@ namespace WebAPI.ActionModels.CommentsMGT
             //{
             //    return BadRequest();
             //}
+            AssigndataUtils AssigndataUtils = new AssigndataUtils();
+
             var _context = new TGDDContext();
 
             Comment comment = AssigndataUtils.AssignComment(CommentDTO, CommentId);

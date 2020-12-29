@@ -22,15 +22,13 @@ namespace WebAPI.ActionModels.FilesMGT
     public class FilesUpload : ControllerBase
     {
         private Stream fileStream { get; set; }
-        private string fileName { get; set; }
-        private long productId { get; set; }
-        public FilesUpload(IFormFile file, long productId)
+        private string fileName { get; set; } 
+        public FilesUpload(IFormFile file)
         {
             this.fileStream = file.OpenReadStream();
-            this.fileName = file.FileName;
-            this.productId = productId;
+            this.fileName = file.FileName; 
         } 
-        public async Task<ActionResult<bool>> Excute()
+        public async Task<Uri> Excute()
         {
             // Create a URI to the blob
             Uri blobUri = new Uri("https://" + AzureStorageConfig.AccountName +
@@ -49,40 +47,10 @@ namespace WebAPI.ActionModels.FilesMGT
             // Upload the file
             await blobClient.UploadAsync(fileStream);
 
-
-            // add image to db
-            {
-                var _context = new TGDDContext();
-
-                var newImageId = _context.Images.Max(Image => Image.Id) + 1;
+            await Task.FromResult(true);
 
 
-                var image = new Image()
-                {
-                    Id = newImageId,
-                    Url = blobUri.ToString(),
-                    ProductId = this.productId
-                }; 
-
-                _context.Images.Add(image);
-                try
-                {
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateException)
-                {
-                    bool imageExist = _context.Images.Any(img => img.Id == image.Id);
-                    if (imageExist)
-                    {
-                        return Conflict();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-            } 
-            return await Task.FromResult(true);
+            return blobUri;
         }
     }
 }

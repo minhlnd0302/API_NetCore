@@ -12,10 +12,14 @@ namespace WebAPI.ActionModels.CommentsMGT
 {
     public class CommentCreate : ControllerBase
     {
-        public  CommentDTO commentDTO { get; set; }
+        public CommentDTO commentDTO { get; set; }
         public async Task<ActionResult<Comment>> Excute()
         {
+
+            AssigndataUtils AssigndataUtils = new AssigndataUtils();
             var _context = new TGDDContext();
+
+
             var comment = AssigndataUtils.AssignComment(commentDTO, 0);
             _context.Comments.Add(comment);
 
@@ -35,7 +39,7 @@ namespace WebAPI.ActionModels.CommentsMGT
                 {
                     throw;
                 }
-            }  
+            }
             return CreatedAtAction("GetComments", new { id = comment.Id }, comment);
 
         }

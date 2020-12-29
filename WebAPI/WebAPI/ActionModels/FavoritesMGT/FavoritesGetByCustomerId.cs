@@ -17,7 +17,7 @@ namespace WebAPI.ActionModels.FavoritesMGT
 
 
 
-            List<Favorite> favorites = await _context.Favorites.Where(f => f.CustomerId == CustomerId).ToListAsync();
+            var favorites = await _context.Favorites.Where(f => f.CustomerId == CustomerId).ToListAsync();
 
             //IList<Favorite> favorites = await _context.Favorites.ToListAsync();
 

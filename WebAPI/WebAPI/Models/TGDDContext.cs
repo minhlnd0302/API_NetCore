@@ -221,19 +221,19 @@ namespace WebAPI.Models
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.Property(e => e.CustomerId).HasColumnName("Customer_Id");
+                entity.Property(e => e.CustomerId).HasColumnName("CustomerId");
 
-                entity.Property(e => e.ProductId).HasColumnName("Product_Id");
+                entity.Property(e => e.ProductId).HasColumnName("ProductId");
 
-                entity.HasOne(d => d.Customer)
-                    .WithMany(p => p.Favorites)
-                    .HasForeignKey(d => d.CustomerId)
-                    .HasConstraintName("FK_Favorites_Customers");
+                //entity.HasOne(d => d.Customer)
+                //    .WithMany(p => p.Favorites)
+                //    .HasForeignKey(d => d.CustomerId)
+                //    .HasConstraintName("FK_Favorites_Customers");
 
-                entity.HasOne(d => d.Product)
-                    .WithMany(p => p.Favorites)
-                    .HasForeignKey(d => d.ProductId)
-                    .HasConstraintName("FK_Favorites_Products");
+                //entity.HasOne(d => d.Product)
+                //    .WithMany(p => p.Favorites)
+                //    .HasForeignKey(d => d.ProductId)
+                //    .HasConstraintName("FK_Favorites_Products");
             });
 
             modelBuilder.Entity<Image>(entity =>

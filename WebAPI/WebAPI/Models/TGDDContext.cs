@@ -159,6 +159,8 @@ namespace WebAPI.Models
                     .HasMaxLength(400)
                     .IsUnicode(false);
 
+
+
                 entity.Property(e => e.Email)
                     .HasMaxLength(200)
                     .IsUnicode(false);
@@ -219,21 +221,34 @@ namespace WebAPI.Models
 
             modelBuilder.Entity<Favorite>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                //entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.CustomerId).HasColumnName("CustomerId");
 
                 entity.Property(e => e.ProductId).HasColumnName("ProductId");
 
+                entity.HasOne(d => d.Customer)
+                    .WithMany(p => p.Favorites)
+                    .HasForeignKey(d => d.CustomerId)
+                    .HasConstraintName("FK_Favorite_Customers");
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.Favorites)
+                    .HasForeignKey(d => d.ProductId)
+                    .HasConstraintName("FK_Favorite_Products");
+
+
+                //entity.Property(e => e.Id).ValueGeneratedNever();
+
                 //entity.HasOne(d => d.Customer)
                 //    .WithMany(p => p.Favorites)
                 //    .HasForeignKey(d => d.CustomerId)
-                //    .HasConstraintName("FK_Favorites_Customers");
+                //    .HasConstraintName("FK_Favorite_Customers");
 
                 //entity.HasOne(d => d.Product)
                 //    .WithMany(p => p.Favorites)
                 //    .HasForeignKey(d => d.ProductId)
-                //    .HasConstraintName("FK_Favorites_Products");
+                //    .HasConstraintName("FK_Favorite_Products");
             });
 
             modelBuilder.Entity<Image>(entity =>
@@ -274,6 +289,7 @@ namespace WebAPI.Models
 
                 entity.Property(e => e.Total).HasColumnType("decimal(19, 2)");
 
+
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.CustomerId)
@@ -294,6 +310,8 @@ namespace WebAPI.Models
                 entity.Property(e => e.OrderId).HasColumnName("Order_Id");
 
                 entity.Property(e => e.ProductId).HasColumnName("Product_Id");
+
+                entity.Property(e => e.CurrentPrice).HasColumnName("CurrentPrice");
 
                 entity.HasOne(d => d.Order)
                     .WithMany(p => p.OrderDetails)
@@ -360,9 +378,9 @@ namespace WebAPI.Models
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.Property(e => e.CustomerId).HasColumnName("Customer_Id");
+                entity.Property(e => e.CustomerId).HasColumnName("CustomerId");
 
-                entity.Property(e => e.VoucherId).HasColumnName("Voucher_Id");
+                entity.Property(e => e.VoucherId).HasColumnName("VoucherId");
 
                 entity.HasOne(d => d.Voucher)
                     .WithMany(p => p.UseVouchers)
@@ -379,7 +397,7 @@ namespace WebAPI.Models
                     .IsUnicode(false)
                     .HasColumnName("code");
 
-                entity.Property(e => e.DiscountPercent).HasColumnName("discount_percent");
+                entity.Property(e => e.DiscountPercent).HasColumnName("DiscountPercent");
 
                 entity.Property(e => e.EndDate).HasColumnType("datetime");
 

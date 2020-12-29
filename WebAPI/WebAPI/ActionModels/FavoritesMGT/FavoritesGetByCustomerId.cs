@@ -16,8 +16,10 @@ namespace WebAPI.ActionModels.FavoritesMGT
             var _context = new TGDDContext();
 
 
-
-            var favorites = await _context.Favorites.Where(f => f.CustomerId == CustomerId).ToListAsync();
+            var p = await _context.Orders.ToListAsync();
+            Customer t = await _context.Customers.Where(c => c.Id == CustomerId).Include(customer => customer.Favorites).FirstOrDefaultAsync();
+            List<Favorite> f = t.Favorites.ToList();
+            
 
             //IList<Favorite> favorites = await _context.Favorites.ToListAsync();
 
@@ -25,13 +27,13 @@ namespace WebAPI.ActionModels.FavoritesMGT
 
             var productsId = new List<long?>();
 
-            if (favorites.Count < 1)
+            if (f.Count < 1)
             {
                 return NotFound("Không có sản phẩm yêu thích !");
             }
             else
             {
-                foreach (var item in favorites)
+                foreach (var item in f)
                 {
                     productsId.Add(item.ProductId);
                 }

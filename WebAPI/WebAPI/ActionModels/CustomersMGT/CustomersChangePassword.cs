@@ -12,7 +12,7 @@ namespace WebAPI.ActionModels.CustomersMGT
     public class CustomersChangePassword : ControllerBase
     {
         public long CustomerId { get; set; }
-        public string OldPassword { get; set; }
+        //public string OldPassword { get; set; }
         public string NewPassword { get; set; }
 
         public async Task<ActionResult> Excute()
@@ -21,16 +21,18 @@ namespace WebAPI.ActionModels.CustomersMGT
 
             Customer customer = await _context.Customers.FindAsync(CustomerId);
 
-            OldPassword = SecurityUtils.CreateMD5(OldPassword);
+            customer.Password = SecurityUtils.CreateMD5(NewPassword);
 
-            if(OldPassword == customer.Password)
-            {
-                customer.Password = SecurityUtils.CreateMD5(NewPassword);
-            }
-            else
-            {
-                return BadRequest("Mật khẩu hiện tại không đúng !");
-            }
+            //OldPassword = SecurityUtils.CreateMD5(OldPassword);
+
+            //if(OldPassword == customer.Password)
+            //{
+            //    customer.Password = SecurityUtils.CreateMD5(NewPassword);
+            //}
+            //else
+            //{
+            //    return BadRequest("Mật khẩu hiện tại không đúng !");
+            //}
 
             _context.Entry(customer).State = EntityState.Modified;
 

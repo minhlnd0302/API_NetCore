@@ -11,6 +11,7 @@ using WebAPI.Models;
 
 using WebAPI.ActionModels.CustomersMGT.CustomersVerifyEmail;
 using WebAPI.IServices;
+using WebAPI.DTOModels;
 
 namespace WebAPI.Controllers
 {
@@ -29,7 +30,7 @@ namespace WebAPI.Controllers
         //https://minhlnd.azurewebsites.net/Customers/all
         // GET: Customers
         // get all customers
-        //[Authorize(Roles = "0")]
+        [Authorize(Roles = "0")]
         [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
         {
@@ -106,14 +107,14 @@ namespace WebAPI.Controllers
         }
 
 
-        [HttpPost("ChangePassword")]
-        public async Task<ActionResult<Customer>> ChangerPassword([FromBody] long CustomerId, string OldPassword, string NewPassword)
+        [Authorize]
+        [HttpPut("ChangePassword")]
+        public async Task<ActionResult<Customer>> ChangerPassword(ChangePasswordDTO changePasswordDTO)
         {
             CustomersChangePassword customersChangePassword = new CustomersChangePassword
             {
-                CustomerId = CustomerId,
-                OldPassword = OldPassword,
-                NewPassword = NewPassword,
+                CustomerId = changePasswordDTO.CustomerId, 
+                NewPassword = changePasswordDTO.NewPassword,
             };
 
             return await customersChangePassword.Excute();

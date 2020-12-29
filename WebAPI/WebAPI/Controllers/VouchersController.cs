@@ -39,13 +39,15 @@ namespace WebAPI.Controllers
             return await voucherGetById.Excute();
         }
 
-        [HttpGet("Customer")]
-        public async Task<ActionResult<Voucher>> GetVoucherByCustomer(long CustomerId)
+        [HttpGet("Customer/{CustomerId}")]
+        public async Task<ActionResult<List<Voucher>>> GetVoucherByCustomer(long CustomerId)
         {
             //var voucherGetById = new VoucherGetById { VoucherId = voucherId };
             //return await voucherGetById.Excute();
 
-            return Ok();
+            VoucherGetByCustomer voucherGetByCustomer = new VoucherGetByCustomer { CustomerId = CustomerId };
+
+            return await voucherGetByCustomer.Excute();
         }
 
 
@@ -69,6 +71,14 @@ namespace WebAPI.Controllers
 
             return await voucherCreate.Excute();
         }
+
+        //[HttpPost("UseVoucher")]
+        //public async Task<ActionResult<Voucher>> UserVoucher(UserVoucherDTO voucherDTO)
+        //{
+        //    VoucherUse voucherUse = new VoucherUse { UserVoucherDTO = voucherDTO };
+
+        //    return await voucherUse.Excute()
+        //}
 
         // DELETE: api/Vouchers/5
         [HttpDelete("{id}")]

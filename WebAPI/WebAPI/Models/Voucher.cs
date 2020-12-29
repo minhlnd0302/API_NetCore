@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 #nullable disable
@@ -19,6 +20,7 @@ namespace WebAPI.Models
         public int? DiscountPercent { get; set; }
         public string Name { get; set; }
 
+        [JsonIgnore] 
         public virtual ICollection<UseVoucher> UseVouchers { get; set; }
     }
 }

@@ -25,7 +25,7 @@ namespace WebAPI.ActionModels.VouchersMGT
             else
             {
 
-                DateTime date = DateTime.Parse(UserVoucherDTO.Date);
+                DateTime date = DateTime.Now;
 
                 if(date < voucher.StartDate && date > voucher.EndDate)
                 {
@@ -42,7 +42,7 @@ namespace WebAPI.ActionModels.VouchersMGT
                     useVoucher = new UseVoucher
                     {
                         Id = newId,
-                        CustomerId = useVoucher.CustomerId,
+                        CustomerId = UserVoucherDTO.CustomerId,
                         Used = true,
                         VoucherId = voucher.Id,
                         Voucher = voucher,

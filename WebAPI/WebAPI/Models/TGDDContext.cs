@@ -34,7 +34,8 @@ namespace WebAPI.Models
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Status> Statuses { get; set; }
         public virtual DbSet<UseVoucher> UseVouchers { get; set; }
-        public virtual DbSet<Voucher> Vouchers { get; set; }
+        public virtual DbSet<Voucher> Vouchers { get; set; } 
+        public virtual DbSet<Notification> Notifications { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -406,6 +407,26 @@ namespace WebAPI.Models
                     .HasColumnName("name");
 
                 entity.Property(e => e.StartDate).HasColumnType("datetime");
+            });
+
+
+            modelBuilder.Entity<Notification>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.Seen)
+                    .HasColumnName("Seen");
+
+                entity.Property(e => e.Type)
+                    .HasColumnName("type");
+
+                entity.Property(e => e.Date)
+                    .HasMaxLength(255)
+                    .HasColumnName("date");
+
+                entity.Property(e => e.Email)
+                    .HasMaxLength(255)
+                    .HasColumnName("email"); 
             });
 
             OnModelCreatingPartial(modelBuilder);

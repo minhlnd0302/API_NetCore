@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +24,7 @@ namespace WebAPI.Controllers
         }
 
         // GET: api/Vouchers
+        [Authorize(Roles = "0")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Voucher>>> GetVouchers()
         {
@@ -32,6 +34,7 @@ namespace WebAPI.Controllers
         }
 
         // GET: api/Vouchers/5
+        [Authorize]
         [HttpGet("{voucherId}")]
         public async Task<ActionResult<Voucher>> GetVoucher(long voucherId)
         {
@@ -39,6 +42,7 @@ namespace WebAPI.Controllers
             return await voucherGetById.Excute();
         }
 
+        [Authorize(Roles = "1")]
         [HttpGet("Customer/{CustomerId}")]
         public async Task<ActionResult<List<Voucher>>> GetVoucherByCustomer(long CustomerId)
         {
@@ -54,6 +58,7 @@ namespace WebAPI.Controllers
         // PUT: api/Vouchers/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [Authorize(Roles = "0")]
         [HttpPut]
         public async Task<IActionResult> PutVoucher(VoucherDTO voucherDTO)
         {
@@ -64,10 +69,11 @@ namespace WebAPI.Controllers
         // POST: api/Vouchers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [Authorize(Roles = "0")]
         [HttpPost]
         public async Task<ActionResult<Voucher>> PostVoucher(VoucherDTO voucher)
         {
-            VoucherCreate voucherCreate = new VoucherCreate();
+            VoucherCreate voucherCreate = new VoucherCreate { voucherDTO = voucher};
 
             return await voucherCreate.Excute();
         }
@@ -81,17 +87,13 @@ namespace WebAPI.Controllers
         //}
 
         // DELETE: api/Vouchers/5
+        [Authorize(Roles = "0")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<Voucher>> DeleteVoucher(long id)
         {
             var voucherDelete = new VoucherDelete { VoucherId = id };
 
             return await voucherDelete.Excute();
-        }
-
-        private bool VoucherExists(long id)
-        {
-            return _context.Vouchers.Any(e => e.Id == id);
-        }
+        } 
     }
 }

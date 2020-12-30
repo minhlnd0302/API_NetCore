@@ -23,6 +23,7 @@ namespace WebAPI.Controllers
         }
 
         // GET: api/Contacts
+        [Authorize(Roles = "0")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Contact>>> GetContacts()
         {
@@ -31,6 +32,7 @@ namespace WebAPI.Controllers
         }
 
         // GET: api/Contacts/5
+        [Authorize(Roles = "0")]
         [HttpGet("{id}")]
         public async Task<ActionResult<Contact>> GetContact(long id)
         {
@@ -47,27 +49,24 @@ namespace WebAPI.Controllers
         // PUT: api/Contacts/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [Authorize(Roles = "0")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutContact(long id)
         {
             var updateReply = new ContactsUpdateReply { ContactId = id };
 
             return await updateReply.Excute();
-        }
-
-        // POST: api/Contacts
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [Authorize]
+        } 
+  
         [HttpPost]
         public async Task<ActionResult<Contact>> PostContact(Contact contact)
         {
             var contactCreate = new ContactsCreate { contact = contact };
-            return await contactCreate.Excute();
-
+            return await contactCreate.Excute(); 
         }
 
         // DELETE: api/Contacts/5
+        [Authorize(Roles = "0")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<Contact>> DeleteContact(long id)
         {

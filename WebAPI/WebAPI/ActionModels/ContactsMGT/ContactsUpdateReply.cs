@@ -14,7 +14,8 @@ namespace WebAPI.ActionModels.ContactsMGT
         public async Task<IActionResult> Excute()
         {
             var _context = new TGDDContext();
-            var contact = await _context.Contacts.FindAsync(ContactId);             
+            var contact = await _context.Contacts.FindAsync(ContactId); 
+            contact.IsReply = true;
 
             _context.Entry(contact).State = EntityState.Modified;
 

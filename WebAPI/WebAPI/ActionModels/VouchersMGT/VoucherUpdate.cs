@@ -39,7 +39,7 @@ namespace WebAPI.ActionModels.VouchersMGT
                 }
             }
 
-            return NoContent();
+            return Ok("Update Voucher thành công !");
         }
     }
 }

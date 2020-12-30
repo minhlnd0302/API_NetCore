@@ -63,13 +63,13 @@ namespace WebAPI.Controllers
             return await orderUpdate.Excute();
         }
 
-        [HttpGet("status/{orderId}")]
-        public async Task<IActionResult> UpdateStatus(long orderId, long statusId)
+        [HttpPut("status/{OrderId}")]
+        public async Task<IActionResult> UpdateStatus(long OrderId,[FromForm] long StatusId)
         {
             var orderUpdateStatus = new OrdersUpdateStatus
             {
-                OrderId = orderId,
-                StatusId = statusId
+                OrderId = OrderId,
+                StatusId = StatusId
             };
             return await orderUpdateStatus.Excute();
         }

@@ -20,7 +20,7 @@ namespace WebAPI.ActionModels.OrdersMGT
 
             var _context = new TGDDContext();
             var order = new Order();
-            order = AssigndataUtils.AssignOrder(OrderDTO, Id);
+            order = await AssigndataUtils.AssignOrder(OrderDTO, Id);
 
             _context.Entry(order).State = EntityState.Modified;
 
@@ -41,7 +41,7 @@ namespace WebAPI.ActionModels.OrdersMGT
                 }
             }
 
-            return NoContent();
+            return Ok("Cập nhật thành công !");
         }
     }
 }

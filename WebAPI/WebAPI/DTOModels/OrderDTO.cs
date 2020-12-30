@@ -15,6 +15,6 @@ namespace WebAPI.DTOModels
         public long? StatusId { get; set; }
         public string Note { get; set; } 
         public string PaymentMethod { get; set; }
-        public virtual ICollection<OrderDetailDTO> OrderDetails { get; set; }
+        public virtual List<OrderDetailDTO> OrderDetails { get; set; }
     }
 }

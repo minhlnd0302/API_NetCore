@@ -19,7 +19,7 @@ namespace WebAPI.ActionModels.OrdersMGT
 
             var _context = new TGDDContext();
             var order = new Order();
-            order = AssigndataUtils.AssignOrder(OrderDTO, 0);
+            order = await AssigndataUtils.AssignOrder(OrderDTO, 0);
 
             _context.Orders.Add(order);
             try

@@ -47,7 +47,7 @@ namespace WebAPI.ActionModels.OrdersMGT
                 }
             }
 
-            return NoContent();
+            return Ok("Chuyển trạng thái thành công !");
         }
     }
 }

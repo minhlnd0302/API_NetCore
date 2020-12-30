@@ -37,14 +37,36 @@ namespace WebAPI.Utils
             return comment;
         }
 
-        public Order AssignOrder(OrderDTO orderDTO, long id)
+        public async Task<Order> AssignOrder(OrderDTO orderDTO, long id)
         {
             var _context = new TGDDContext();
             var order = new Order();
+            var listOrderDetail = new List<OrderDetail>();
 
             if (id == 0)
             {
                 id = _context.Orders.Max(o => o.Id) + 1;
+            }
+            else
+            {
+                listOrderDetail = await _context.OrderDetails.Where(orderDetail => orderDetail.OrderId == id).ToListAsync();
+
+                foreach(OrderDetail orderDetail in listOrderDetail)
+                {
+                    foreach(OrderDetailDTO orderDetailDTO in orderDTO.OrderDetails)
+                    {
+                        if(orderDetailDTO.ProductId == orderDetail.ProductId)
+                        {
+                            orderDetail.Quantity = orderDetailDTO.Quantity;
+
+                            _context.Entry(orderDetail).State = EntityState.Modified;
+
+                            break;
+                        }
+                    }
+                }
+
+                await _context.SaveChangesAsync();
             }
 
             order.Id = id;
@@ -62,6 +84,8 @@ namespace WebAPI.Utils
 
             foreach (var orderDetail in orderDTO.OrderDetails)
             {
+                if (listOrderDetail.Count > 0) break;
+
                 var od = new OrderDetail();
                 orderDetailId++;
                 od.Id = orderDetailId;
@@ -106,6 +130,7 @@ namespace WebAPI.Utils
         {
             var _context = new TGDDContext();
             Product newProduct = new Product();
+            string type = "";
 
             long? DescriptionId = new long?();
 
@@ -128,7 +153,9 @@ namespace WebAPI.Utils
                 newProduct = await _context.Products.Where(p => p.Id == ProductId).Include(p => p.Descriptions).FirstOrDefaultAsync();
                 DescriptionId = newProduct.Descriptions.Select(d => d.Id).FirstOrDefault();
                 ProductsDeleteImage productsDeleteImage = new ProductsDeleteImage { ProductId = ProductId };
-                await productsDeleteImage.Excute(); 
+                await productsDeleteImage.Excute();
+
+                type = "Update";
             }
 
 
@@ -189,9 +216,15 @@ namespace WebAPI.Utils
 
                 };
 
-                newProduct.Images.Add(newImage);
-
-
+                if (type == "Update")
+                {
+                    _context.Images.Add(newImage);
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    newProduct.Images.Add(newImage); 
+                } 
                 newImageId++;
             }
 

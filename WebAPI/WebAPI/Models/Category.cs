@@ -17,6 +17,9 @@ namespace WebAPI.Models
         public string Name { get; set; }
 
         [JsonIgnore] 
+        public virtual ICollection<Circle> Circle { get; set; } 
+
+        [JsonIgnore] 
         public virtual ICollection<Product> Products { get; set; }
     }
 }

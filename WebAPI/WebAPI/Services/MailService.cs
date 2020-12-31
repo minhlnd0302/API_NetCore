@@ -13,11 +13,11 @@ namespace WebAPI.Services
     {
         public string GetMailBody(Customer oCustomer)
         {
-            string url = Global.DomainName + "TestVerify/ConfirmMail/" + oCustomer.UserName+"/"+oCustomer.Password;
+            string url = Global.DomainName + "customers/ConfirmMail/" + oCustomer.UserName+"/"+oCustomer.Password;
             return string.Format(@"<div style='text-align:center;'>
                                        <h1>Welcome to our Web Site</h1>
                                        <h3>Click below button for verify your Email Id</h3>
-                                       <form method='get' action='{0}' style = 'display : inline;' >
+                                       <form method='Get' action='{0}' style = 'display : inline;' >
                                              <button type = 'submit' style='display : block;
                                                                                 text-align : center;
                                                                                 font-weight : bold;

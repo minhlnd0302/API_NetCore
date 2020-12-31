@@ -36,6 +36,16 @@ namespace WebAPI.Models
         public virtual DbSet<UseVoucher> UseVouchers { get; set; }
         public virtual DbSet<Voucher> Vouchers { get; set; } 
         public virtual DbSet<Notification> Notifications { get; set; }
+        public virtual DbSet<Circle> Circle { get; set; }
+
+        public virtual DbSet<DayStatistical> DayStatisticals { get; set; }
+
+        public virtual DbSet<MonthStatistical> MonthStatisticals { get; set; }
+
+        public virtual DbSet<TopProduct> TopProducts { get; set; }
+
+        public virtual DbSet<WeekStatistical> WeekStatisticals { get; set; }
+        public virtual DbSet<YearStatistical> YearStatisticals { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -65,6 +75,8 @@ namespace WebAPI.Models
                     .HasForeignKey(d => d.Role)
                     .HasConstraintName("FK_Admins_Roles");
             });
+
+
 
             modelBuilder.Entity<Brand>(entity =>
             {
@@ -423,6 +435,67 @@ namespace WebAPI.Models
                 entity.Property(e => e.Email)
                     .HasMaxLength(255)
                     .HasColumnName("email"); 
+            });
+
+            modelBuilder.Entity<Circle>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.HasOne(d => d.Category)
+                    .WithMany(p => p.Circle)
+                    .HasForeignKey(d => d.CategoryId)
+                    .HasConstraintName("FK_Circle_Categories");
+            });
+
+            modelBuilder.Entity<DayStatistical>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.TotalDay).HasColumnType("decimal(19, 2)");
+
+                entity.HasOne(d => d.Month)
+                    .WithMany(p => p.DayStatisticals)
+                    .HasForeignKey(d => d.MonthId)
+                    .HasConstraintName("FK_DayStatisticals_MonthStatisticals");
+
+                entity.HasOne(d => d.Week)
+                    .WithMany(p => p.DayStatisticals)
+                    .HasForeignKey(d => d.WeekId)
+                    .HasConstraintName("FK_DayStatisticals_WeekStatisticals");
+
+                entity.HasOne(d => d.Year)
+                    .WithMany(p => p.DayStatisticals)
+                    .HasForeignKey(d => d.YearId)
+                    .HasConstraintName("FK_DayStatisticals_YearStatisticals");
+            });
+
+            modelBuilder.Entity<MonthStatistical>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.TotalMonth).HasColumnType("decimal(19, 2)");
+
+                entity.HasOne(d => d.Year)
+                    .WithMany(p => p.MonthStatisticals)
+                    .HasForeignKey(d => d.YearId)
+                    .HasConstraintName("FK_MonthStatisticals_YearStatisticals");
+            });
+
+            modelBuilder.Entity<YearStatistical>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.TotalYear).HasColumnType("decimal(19, 2)");
+            });
+
+            modelBuilder.Entity<TopProduct>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.TopProducts)
+                    .HasForeignKey(d => d.ProductId)
+                    .HasConstraintName("FK_TopProducts_Products");
             });
 
             OnModelCreatingPartial(modelBuilder);

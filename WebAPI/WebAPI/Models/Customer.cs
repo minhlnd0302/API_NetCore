@@ -17,9 +17,8 @@ namespace WebAPI.Models
         }
 
         public long Id { get; set; }
-        public string UserName { get; set; }
-
-        [JsonIgnore]
+        public string UserName { get; set; } 
+        //[JsonIgnore]
         public string Password { get; set; }
         public int? Role { get; set; }
         public string Firstname { get; set; }

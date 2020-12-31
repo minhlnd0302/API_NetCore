@@ -20,9 +20,20 @@ namespace WebAPI.ActionModels.CustomersMGT
             //}
 
             var _context = new TGDDContext();
-            this.Customer.Id = Id;
 
-            _context.Entry(Customer).State = EntityState.Modified;
+            Customer customer = await _context.Customers.FindAsync(Id);
+
+            {
+                customer.Lastname = this.Customer.Lastname;
+                customer.Firstname = this.Customer.Firstname;
+                customer.Address = this.Customer.Address;
+                customer.Phone = this.Customer.Phone;
+                customer.Gender = this.Customer.Gender;
+            }
+
+             
+
+            _context.Entry(customer).State = EntityState.Modified;
 
             try
             {
@@ -30,7 +41,7 @@ namespace WebAPI.ActionModels.CustomersMGT
             }
             catch (DbUpdateConcurrencyException)
             {
-                bool customerExist = _context.Customers.Any(c => c.Id == Customer.Id);
+                bool customerExist = _context.Customers.Any(c => c.Id == customer.Id);
                 if (!customerExist)
                 {
                     return NotFound();

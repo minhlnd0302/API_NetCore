@@ -24,7 +24,7 @@ namespace WebAPI.Controllers
             return await notificationsGetAll.Excute();
         }
 
-        [Authorize(Roles = "0")]
+        //[Authorize(Roles = "0")]
         [HttpPost]
         public async Task<ActionResult<Notification>> PostNotification(Notification notification)
         {

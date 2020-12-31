@@ -131,6 +131,16 @@ namespace WebAPI.Controllers
             return await verifyEmail.Excute();
         }
 
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateCustomer(Customer customer)
+        {
+            CustomersUpdate customersUpdate = new CustomersUpdate { Customer = customer, Id = customer.Id };
+            return await customersUpdate.Excute(); 
+        }
+            
+
+
          
         [HttpDelete("{id}")]
         public async Task<ActionResult<Customer>> DeleteCustomers(long id)

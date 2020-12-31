@@ -15,6 +15,7 @@ namespace WebAPI.Models
             Favorite = new HashSet<Favorite>();
             Images = new HashSet<Image>();
             OrderDetails = new HashSet<OrderDetail>();
+            TopProducts = new HashSet<TopProduct>();
         }
 
         public long Id { get; set; }
@@ -38,5 +39,8 @@ namespace WebAPI.Models
 
         [JsonIgnore] 
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+
+        public virtual ICollection<TopProduct> TopProducts { get; set; }
+
     }
 }

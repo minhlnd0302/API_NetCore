@@ -16,7 +16,18 @@ namespace WebAPI.ActionModels.NotificationsMGT
         {
             var _context = new TGDDContext();
 
-            Notification.Id = _context.Notifications.Max(notification => notification.Id) + 1;
+            try
+            {
+                Notification.Id = _context.Notifications.Max(notification => notification.Id) + 1;
+
+            }
+            catch
+            {
+
+                Notification.Id = 1;
+
+            }
+
 
             _context.Notifications.Add(Notification);
 
@@ -37,7 +48,9 @@ namespace WebAPI.ActionModels.NotificationsMGT
                 }
             }
 
-            return CreatedAtAction("GetNotification", new { id = Notification.Id }, Notification);
+            //return CreatedAtAction("GetNotification", new { id = Notification.Id }, Notification);
+
+            return Ok(Notification);
         }
     }
 }

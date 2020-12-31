@@ -12,7 +12,7 @@ namespace WebAPI.Models
         {
             Carts = new HashSet<Cart>();
             Comments = new HashSet<Comment>();
-            Favorites = new HashSet<Favorite>();
+            Favorite = new HashSet<Favorite>();
             Orders = new HashSet<Order>();
         }
 
@@ -37,7 +37,7 @@ namespace WebAPI.Models
         [JsonIgnore]
         public virtual ICollection<Comment> Comments { get; set; }
         [JsonIgnore]
-        public virtual ICollection<Favorite> Favorites { get; set; }
+        public virtual ICollection<Favorite> Favorite { get; set; }
 
         [JsonIgnore] 
         public virtual ICollection<Order> Orders { get; set; }

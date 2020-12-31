@@ -23,10 +23,32 @@ namespace WebAPI.Controllers
         }
 
         // GET: api/Contacts
-        [Authorize(Roles = "0")]
+        //[Authorize(Roles = "0")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Contact>>> GetContacts()
         {
+            var _context = new TGDDContext();
+          
+            List<Order> Orders  = await _context.Orders.OrderBy(order => order.Date).ToListAsync();
+
+            List<int> day = new List<int>();
+            List<int> month = new List<int>();
+            List<int> year = new List<int>();
+
+            foreach(Order order in Orders)
+            {
+                day.Add(order.Date.Value.Day);
+                month.Add(order.Date.Value.Month);
+                year.Add(order.Date.Value.Year);
+            }
+
+
+            //for (int i = 0; i < 52; i++)
+            //{
+
+            //}
+
+
             var contactGetAll = new ContactGetAll();
             return await contactGetAll.Excute();
         }

@@ -17,8 +17,10 @@ namespace WebAPI.ActionModels.FavoritesMGT
 
 
             var p = await _context.Orders.ToListAsync();
-            Customer t = await _context.Customers.Where(c => c.Id == CustomerId).Include(customer => customer.Favorites).FirstOrDefaultAsync();
-            List<Favorite> f = t.Favorites.ToList();
+            //Customer t = await _context.Customers.Where(c => c.Id == CustomerId).Include(customer => customer.Favorites).FirstOrDefaultAsync();
+            //List<Favorite> f = t.Favorites.ToList();
+
+            List<Favorite> f = await _context.Favorites.ToListAsync();
             
 
             //IList<Favorite> favorites = await _context.Favorites.ToListAsync();

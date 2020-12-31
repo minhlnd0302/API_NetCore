@@ -222,19 +222,15 @@ namespace WebAPI.Models
 
             modelBuilder.Entity<Favorite>(entity =>
             {
-                //entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.Property(e => e.CustomerId).HasColumnName("CustomerId");
-
-                entity.Property(e => e.ProductId).HasColumnName("ProductId");
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.HasOne(d => d.Customer)
-                    .WithMany(p => p.Favorites)
+                    .WithMany(p => p.Favorite)
                     .HasForeignKey(d => d.CustomerId)
                     .HasConstraintName("FK_Favorite_Customers");
 
                 entity.HasOne(d => d.Product)
-                    .WithMany(p => p.Favorites)
+                    .WithMany(p => p.Favorite)
                     .HasForeignKey(d => d.ProductId)
                     .HasConstraintName("FK_Favorite_Products");
 

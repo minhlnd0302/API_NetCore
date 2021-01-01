@@ -15,6 +15,9 @@ namespace WebAPI.Controllers
     using System.Text;
     using WebAPI.Models;
     using WebAPI.Controllers;
+    using Microsoft.EntityFrameworkCore;
+    using System.Threading.Tasks;
+
     public static class SecurityUtils
     {
         //kiểm tra token có phải là admin hay không 
@@ -90,7 +93,7 @@ namespace WebAPI.Controllers
 
             var encodetoken = new JwtSecurityTokenHandler().WriteToken(token);
             return encodetoken;
-        }
+        } 
         public static Admin AuthenticateAdmin(Login loginInfo)
         {
             Admin admin = null;
@@ -109,12 +112,52 @@ namespace WebAPI.Controllers
 
             loginInfo.Password = SecurityUtils.CreateMD5(loginInfo.Password); 
 
-            customer = _context.Customers.FirstOrDefault(a => a.UserName == loginInfo.UserName && a.Password == loginInfo.Password);
-             
+            customer = _context.Customers.FirstOrDefault(a => a.UserName == loginInfo.UserName && a.Password == loginInfo.Password); 
 
             return customer;
         }
 
         
+    }
+
+    public class ForgotPassword
+    {
+        public async Task<Customer> FindAccount (string username)
+        {
+            var _context = new TGDDContext();
+
+            Customer userinfo = await _context.Customers.FirstOrDefaultAsync(c => c.UserName == username);
+            if (userinfo == null)
+            {
+                userinfo = await _context.Customers.FirstOrDefaultAsync(c => c.Email == username);
+            }
+
+            return userinfo;
+        }
+        public string GenerateJSONWebTokenForgotPassword(string username, string password)
+        { 
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Minhlnd.hcmue@gmail.com"));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+        
+
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, username),
+                new Claim(JwtRegisteredClaimNames.Jti, password), 
+                new Claim(ClaimTypes.Role, "3"),
+
+            };
+
+            var token = new JwtSecurityToken(
+                issuer: "https://localhost:8080",
+                audience: "https://localhost:8080",
+                claims,
+                expires: DateTime.Now.AddMinutes(120),
+                signingCredentials: credentials);
+
+            var encodetoken = new JwtSecurityTokenHandler().WriteToken(token);
+            return encodetoken;
+        }
     }
 }

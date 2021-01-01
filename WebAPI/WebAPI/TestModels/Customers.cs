@@ -11,6 +11,7 @@ namespace WebAPI.TestModels
             Comments = new HashSet<Comments>();
             Favorite = new HashSet<Favorite>();
             Orders = new HashSet<Orders>();
+            TopCustomers = new HashSet<TopCustomers>();
         }
 
         public long Id { get; set; }
@@ -30,5 +31,6 @@ namespace WebAPI.TestModels
         public virtual ICollection<Comments> Comments { get; set; }
         public virtual ICollection<Favorite> Favorite { get; set; }
         public virtual ICollection<Orders> Orders { get; set; }
+        public virtual ICollection<TopCustomers> TopCustomers { get; set; }
     }
 }

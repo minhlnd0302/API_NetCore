@@ -40,5 +40,8 @@ namespace WebAPI.Models
 
         [JsonIgnore] 
         public virtual ICollection<Order> Orders { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<TopCustomer> TopCustomers { get; set; }
+
     }
 }

@@ -35,6 +35,7 @@ namespace WebAPI.TestModels
         public virtual DbSet<Products> Products { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<Status> Status { get; set; }
+        public virtual DbSet<TopCustomers> TopCustomers { get; set; }
         public virtual DbSet<TopProducts> TopProducts { get; set; }
         public virtual DbSet<UseVoucher> UseVoucher { get; set; }
         public virtual DbSet<Vouchers> Vouchers { get; set; }
@@ -406,6 +407,18 @@ namespace WebAPI.TestModels
                 entity.Property(e => e.Value)
                     .HasColumnName("value")
                     .HasMaxLength(200);
+            });
+
+            modelBuilder.Entity<TopCustomers>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.LastBuy).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Customer)
+                    .WithMany(p => p.TopCustomers)
+                    .HasForeignKey(d => d.CustomerId)
+                    .HasConstraintName("FK_TopCustomers_Customers");
             });
 
             modelBuilder.Entity<TopProducts>(entity =>

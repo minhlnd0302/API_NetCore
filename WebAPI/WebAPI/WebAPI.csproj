@@ -27,6 +27,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ActionModels\StatisticalMGT\StatisticalYear\" />
+    <Folder Include="ActionModels\StatisticalMGT\StatisticalMonth\" />
+    <Folder Include="ActionModels\StatisticalMGT\StatisticalWeek\" />
+    <Folder Include="ActionModels\StatisticalMGT\StatisticalDay\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

@@ -12,5 +12,7 @@ namespace WebAPI.IServices
         Task<string> SendMail(MailClass oMailClass);
 
         string GetMailBody(Customer oCustomer);
+
+        string GetMailBodyForgetPassword(string token);
     }
 }

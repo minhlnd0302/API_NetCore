@@ -46,6 +46,8 @@ namespace WebAPI.Models
 
         public virtual DbSet<WeekStatistical> WeekStatisticals { get; set; }
         public virtual DbSet<YearStatistical> YearStatisticals { get; set; }
+        public virtual DbSet<TopCustomer> TopCustomers { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -496,6 +498,18 @@ namespace WebAPI.Models
                     .WithMany(p => p.TopProducts)
                     .HasForeignKey(d => d.ProductId)
                     .HasConstraintName("FK_TopProducts_Products");
+            });
+
+            modelBuilder.Entity<TopCustomer>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.LastBuy).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Customer)
+                    .WithMany(p => p.TopCustomers)
+                    .HasForeignKey(d => d.CustomerId)
+                    .HasConstraintName("FK_TopCustomers_Customers");
             });
 
             OnModelCreatingPartial(modelBuilder);

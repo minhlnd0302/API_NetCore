@@ -12,6 +12,7 @@ using WebAPI.Models;
 using WebAPI.ActionModels.CustomersMGT.CustomersVerifyEmail;
 using WebAPI.IServices;
 using WebAPI.DTOModels;
+using System.Security.Claims;
 
 namespace WebAPI.Controllers
 {
@@ -115,8 +116,7 @@ namespace WebAPI.Controllers
             {
                 CustomerId = changePasswordDTO.CustomerId, 
                 NewPassword = changePasswordDTO.NewPassword,
-            };
-
+            }; 
             return await customersChangePassword.Excute();
         }
 
@@ -138,10 +138,30 @@ namespace WebAPI.Controllers
             CustomersUpdate customersUpdate = new CustomersUpdate { Customer = customer, Id = customer.Id };
             return await customersUpdate.Excute(); 
         }
-            
+
+        //[Authorize(Roles = "3")] 
+        [AllowAnonymous]
+        [HttpGet("ForgotPassword/{username}")]
+        public async Task<ActionResult> ForgotPassword(string username)
+        {
+            ForgetPassword forgetPassword = new ForgetPassword (_mailService,username); 
+            return await forgetPassword.Excute(); 
+        }
+
+        [Authorize(Roles = "3")] 
+        [HttpPut("ConfirmForgotPassword")]
+        public async Task<ActionResult<Customer>> ConfirmForgotPassword([FromForm]string newpassword)
+        {
+            var indentity = HttpContext.User.Identity as ClaimsIdentity;
+            IList<Claim> claim = indentity.Claims.ToList(); 
+            var username = claim[0].Value;
+
+            ComfirmForgetPassword comfirmForgetPassword = new ComfirmForgetPassword(username, newpassword);
+            return await comfirmForgetPassword.Excute();
+        }
 
 
-         
+
         [HttpDelete("{id}")]
         public async Task<ActionResult<Customer>> DeleteCustomers(long id)
         {

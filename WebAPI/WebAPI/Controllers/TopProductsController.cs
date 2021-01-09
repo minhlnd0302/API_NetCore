@@ -26,6 +26,20 @@ namespace WebAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TopProduct>>> GetTopProducts()
         {
+            List<long> productId = await _context.Products.OrderByDescending(p => p.BuyingTimes).Select(p => p.Id).Take(10).ToListAsync();
+
+            List<TopProduct> topProducts = await _context.TopProducts.ToListAsync();
+
+            int tmp = 0;
+            foreach(TopProduct topProduct in topProducts)
+            {
+                topProduct.ProductId = productId[tmp];
+                _context.Entry(topProduct).State = EntityState.Modified; 
+                tmp++; 
+            }
+
+            await _context.SaveChangesAsync();
+
             return await _context.TopProducts.Include(top=>top.Product).ThenInclude(p=>p.Images).ToListAsync();
         }
 

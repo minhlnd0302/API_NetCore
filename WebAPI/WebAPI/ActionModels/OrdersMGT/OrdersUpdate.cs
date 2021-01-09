@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebAPI.ActionModels.ProductsMGT;
 using WebAPI.DTOModels;
 using WebAPI.Models;
 using WebAPI.Utils;
@@ -21,6 +22,21 @@ namespace WebAPI.ActionModels.OrdersMGT
             var _context = new TGDDContext();
             var order = new Order();
             order = await AssigndataUtils.AssignOrder(OrderDTO, Id);
+
+            if(order.StatusId == 4)
+            {
+                ProductsAutoUpdate productsAutoUpdate = new ProductsAutoUpdate();
+                List<OrderDetail> orderDetails = order.OrderDetails.ToList();
+                foreach (OrderDetail orderDetail in orderDetails)
+                {
+                    Product product = await _context.Products.FindAsync(orderDetail.ProductId);
+                    product.BuyingTimes -= orderDetail.Quantity;
+                    product.Stock += orderDetail.Quantity;
+
+                    _context.Entry(product).State = EntityState.Modified;
+                }
+                await _context.SaveChangesAsync();
+            }
 
             _context.Entry(order).State = EntityState.Modified;
 

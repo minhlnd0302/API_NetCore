@@ -16,8 +16,8 @@ namespace WebAPI.ActionModels.FilesMGT
     {
         public static string AccountName { get; set; } = "minhlnd";
         public static string ImageContainer { get; set; } = "tgdd";
-        //public static string AccountKey { get; set; } = "JLVG7Mx8CHfV3bt4SzwnVL0y0+RrIR9nZX+Rd4UbJFGpgdAjBAF2En4aDwrqU/y7aVWY2/0MnBrpTKELYVD2Xw==";
-        public static string AccountKey { get; set; } = "UzQ9O0+w9/MYCdDWvtWZ3gJDZx54VqkU0n/tuvvzEqGnSOzFTmZldM3EX/Lt29sI/jF5CqPDO0Ki8brHmKTKow==";
+        public static string AccountKey { get; set; } = "WBMxk8lv52qhcbjDhm2Sl4jIQYiYL8W8LS1FG7YCiw3o9K4B6MRmgEYLM6H2jDSmzUCdhUBF+jnm3Omy1Lcc9A==";
+        //public static string AccountKey { get; set; } = "UzQ9O0+w9/MYCdDWvtWZ3gJDZx54VqkU0n/tuvvzEqGnSOzFTmZldM3EX/Lt29sI/jF5CqPDO0Ki8brHmKTKow==";
     }
     public class FilesUpload : ControllerBase
     {

@@ -107,12 +107,12 @@ namespace WebAPI.Controllers
         }
         public static Customer AuthenticateCustomer(Login loginInfo)
         {
-            Customer customer = null;
+            Customer customer = new Customer();
             //var _context = new TGDDContext();
 
             loginInfo.Password = SecurityUtils.CreateMD5(loginInfo.Password); 
 
-            customer = _context.Customers.FirstOrDefault(a => a.UserName == loginInfo.UserName && a.Password == loginInfo.Password); 
+            customer = _context.Customers.FirstOrDefault(a => a.UserName == loginInfo.UserName && a.Password == loginInfo.Password && a.Verified == true); 
 
             return customer;
         }

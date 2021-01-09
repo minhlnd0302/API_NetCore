@@ -22,10 +22,35 @@ namespace WebAPI.Controllers
         }
 
         // GET: api/Circles
-        [Authorize(Roles = "0")]
+        //[Authorize(Roles = "0")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Circle>>> GetCircle()
         {
+
+            List<OrderDetail> orderDetails = await _context.OrderDetails.Include(o=>o.Product).ToListAsync();
+
+            List<Circle> circles = await _context.Circle.ToListAsync();
+
+            var c = new int[4];
+
+            foreach(OrderDetail orderDetail in orderDetails)
+            {
+                c[orderDetail.Product.CategoryId.Value-1] += orderDetail.Quantity.Value;
+            }
+
+            int tmp = 0;
+            foreach(Circle circle in circles)
+            {
+                circle.SoldQuantity = c[tmp];
+                _context.Entry(circle).State = EntityState.Modified;
+                tmp++; 
+            }
+
+            await _context.SaveChangesAsync();
+
+
+
+
             return await _context.Circle.Include(c=>c.Category).ToListAsync();
         } 
     }

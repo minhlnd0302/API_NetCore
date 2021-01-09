@@ -27,6 +27,11 @@ namespace WebAPI.ActionModels.VouchersMGT
             foreach(Voucher voucher in vouchers)
             {
                 if (voucher.EndDate < DateTime.Now) continue;
+                if(userVouchers.Count < 1)
+                {
+                    vouchersCanUse = vouchers;
+                    break;
+                }
                 foreach(UseVoucher useVoucher in userVouchers)
                 {
                     if(useVoucher.VoucherId == voucher.Id)

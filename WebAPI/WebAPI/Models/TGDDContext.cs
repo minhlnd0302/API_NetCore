@@ -36,24 +36,19 @@ namespace WebAPI.Models
         public virtual DbSet<UseVoucher> UseVouchers { get; set; }
         public virtual DbSet<Voucher> Vouchers { get; set; } 
         public virtual DbSet<Notification> Notifications { get; set; }
-        public virtual DbSet<Circle> Circle { get; set; }
-
-        public virtual DbSet<DayStatistical> DayStatisticals { get; set; }
-
-        public virtual DbSet<MonthStatistical> MonthStatisticals { get; set; }
-
-        public virtual DbSet<TopProduct> TopProducts { get; set; }
-
+        public virtual DbSet<Circle> Circle { get; set; } 
+        public virtual DbSet<DayStatistical> DayStatisticals { get; set; } 
+        public virtual DbSet<MonthStatistical> MonthStatisticals { get; set; } 
+        public virtual DbSet<TopProduct> TopProducts { get; set; } 
         public virtual DbSet<WeekStatistical> WeekStatisticals { get; set; }
         public virtual DbSet<YearStatistical> YearStatisticals { get; set; }
-        public virtual DbSet<TopCustomer> TopCustomers { get; set; }
-
-
+        public virtual DbSet<TopCustomer> TopCustomers { get; set; } 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                //optionsBuilder.UseSqlServer("Server=tcp:minhlnd.database.windows.net,1433;Initial Catalog=TGDD;Persist Security Info=False;User ID=minhlnd;Password=3223minh!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
                 optionsBuilder.UseSqlServer("Server=tcp:minhlnd.database.windows.net,1433;Initial Catalog=TGDD;Persist Security Info=False;User ID=minhlnd;Password=3223minh!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             }
         }
@@ -419,7 +414,33 @@ namespace WebAPI.Models
                 entity.Property(e => e.StartDate).HasColumnType("datetime");
             });
 
+            modelBuilder.Entity<Favorite>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
+                entity.HasOne(d => d.Customer)
+                    .WithMany(p => p.Favorite)
+                    .HasForeignKey(d => d.CustomerId)
+                    .HasConstraintName("FK_Favorite_Customers");
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.Favorite)
+                    .HasForeignKey(d => d.ProductId)
+                    .HasConstraintName("FK_Favorite_Products");
+
+
+                //entity.Property(e => e.Id).ValueGeneratedNever();
+
+                //entity.HasOne(d => d.Customer)
+                //    .WithMany(p => p.Favorites)
+                //    .HasForeignKey(d => d.CustomerId)
+                //    .HasConstraintName("FK_Favorite_Customers");
+
+                //entity.HasOne(d => d.Product)
+                //    .WithMany(p => p.Favorites)
+                //    .HasForeignKey(d => d.ProductId)
+                //    .HasConstraintName("FK_Favorite_Products");
+            }); 
             modelBuilder.Entity<Notification>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();

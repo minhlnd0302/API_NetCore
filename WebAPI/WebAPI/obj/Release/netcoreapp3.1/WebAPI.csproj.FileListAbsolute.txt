@@ -60,7 +60,6 @@ E:\API_NetCore\WebAPI\WebAPI\bin\Release\netcoreapp3.1\runtimes\win-arm64\native
 E:\API_NetCore\WebAPI\WebAPI\bin\Release\netcoreapp3.1\runtimes\win-x64\native\e_sqlite3.dll
 E:\API_NetCore\WebAPI\WebAPI\bin\Release\netcoreapp3.1\runtimes\win-x86\native\e_sqlite3.dll
 E:\API_NetCore\WebAPI\WebAPI\bin\Release\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-E:\API_NetCore\WebAPI\WebAPI\obj\Release\netcoreapp3.1\WebAPI.csprojAssemblyReference.cache
 E:\API_NetCore\WebAPI\WebAPI\obj\Release\netcoreapp3.1\WebAPI.AssemblyInfoInputs.cache
 E:\API_NetCore\WebAPI\WebAPI\obj\Release\netcoreapp3.1\WebAPI.AssemblyInfo.cs
 E:\API_NetCore\WebAPI\WebAPI\obj\Release\netcoreapp3.1\WebAPI.csproj.CoreCompileInputs.cache
@@ -163,3 +162,4 @@ E:\API_NetCore\WebAPI\WebAPI\bin\Release\netcoreapp3.1\System.Web.Cors.dll
 E:\API_NetCore\WebAPI\WebAPI\bin\Release\netcoreapp3.1\System.Net.Http.Formatting.dll
 E:\API_NetCore\WebAPI\WebAPI\bin\Release\netcoreapp3.1\System.Web.Http.dll
 E:\API_NetCore\WebAPI\WebAPI\bin\Release\netcoreapp3.1\System.Web.Http.Cors.dll
+E:\API_NetCore\WebAPI\WebAPI\obj\Release\netcoreapp3.1\WebAPI.csprojAssemblyReference.cache

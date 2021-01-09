@@ -24,45 +24,20 @@ namespace WebAPI.Controllers
     [Route("[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
-    {
-        private TGDDContext _context;
-
-        public ProductsController(TGDDContext context)
-        {
-            //string tmp = SecurityUtils.CreateMD5("testtest");
-
-            _context = context;
-        }
-
-        // GET: get all Products
+    { 
         [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-            var product = new ProductsGetAll();
-
+            var product = new ProductsGetAll(); 
             return await product.Excute();
-        } 
+        }
 
          
-
         // lay thông tin product = Id
         [HttpGet("{ProductId}")]
         public async Task<ActionResult<Product>> GetProduct(long ProductId)
-        {
-            //var product = await _context.Products.Include(p => p.Brand)
-            //                                .Include(p => p.Category)
-            //                                .Include(p => p.Descriptions)
-            //                                .Include(p => p.Comments)
-            //                                .Include(p=>p.Images)
-            //                                .FirstOrDefaultAsync(product => product.Id == idProduct);
-
-            //if (product == null)
-            //{
-            //    return NotFound("Không tìm thấy sẳn phẩm này !");
-            //}
-
-            //return product;
+        { 
             var tmp = new ProductsGetById();
             tmp.ProductId = ProductId;
 
@@ -75,8 +50,7 @@ namespace WebAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProducts(long id,ProductDTO product)
         {
-            ProductsUpdate productsUpdate = new ProductsUpdate { id = id, ProductDTO = product };
-
+            ProductsUpdate productsUpdate = new ProductsUpdate { id = id, ProductDTO = product }; 
             return await productsUpdate.Excute();
 
         }
@@ -102,9 +76,26 @@ namespace WebAPI.Controllers
             return await productsDelete.Excute();
         }
 
-        private bool ProductsExists(long id)
+        //[Authorize]
+        [HttpPut("rating")]
+        public async Task<ActionResult<Product>> Rating ([FromForm]long ProductId, [FromForm]int rate)
         {
-            return _context.Products.Any(e => e.Id == id);
-        }
+            var _context = new TGDDContext();
+            Product tmp = await _context.Products.FindAsync(ProductId);
+
+            tmp.Rating = (tmp.Rating * tmp.BuyingTimes + rate) / (tmp.BuyingTimes + 1);
+
+            _context.Entry(tmp).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                return BadRequest("Lỗi");
+            } 
+            return Ok(); 
+        } 
     }
 }

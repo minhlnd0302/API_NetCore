@@ -26,6 +26,22 @@ namespace WebAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TopCustomer>>> GetTopCustomers()
         {
+            List<Order> orders = await _context.Orders.OrderByDescending(o => o.Date).Take(10).ToListAsync();
+            //List<Order> orders = await _context.Orders.OrderBy(o => o.Date).Take(10).ToListAsync();
+
+            List<TopCustomer> customers = await _context.TopCustomers.ToListAsync();
+
+            int tmp = 0;
+            foreach(TopCustomer topCustomer in customers)
+            {
+                topCustomer.CustomerId = orders[tmp].CustomerId;
+                topCustomer.LastBuy = orders[tmp].Date;
+                _context.Entry(topCustomer).State = EntityState.Modified;
+                tmp++;
+            }
+
+            await _context.SaveChangesAsync();
+
             return await _context.TopCustomers.Include(c=>c.Customer).ToListAsync();
         } 
     }

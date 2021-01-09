@@ -11,8 +11,7 @@ namespace WebAPI.DTOModels
         public long? CustomerId { get; set; }
         public long? ProductId { get; set; }
         public string Message { get; set; }
-        //public DateTime? Date { get; set; }
-
+        //public DateTime? Date { get; set; }  
         public int Ratting { get; set; }
     }
 }

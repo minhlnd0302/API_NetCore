@@ -25,6 +25,13 @@ namespace WebAPI.Utils
                 id = _context.Comments.Max(p => p.Id) + 1;
             }
 
+            Product product =  _context.Products.Find(commentsDTO.ProductId);
+            //product.Rating = (product.Rating * product.BuyingTimes + commentsDTO.Ratting) / (product.BuyingTimes + 1);
+            product.Rating = 5;
+
+            _context.Entry(product).State = EntityState.Modified;
+            _context.SaveChanges();
+
             // assign value from commentDTO to comments
             {
                 comment.Id = id;
